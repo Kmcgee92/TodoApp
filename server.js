@@ -29,23 +29,3 @@ const options = {
 server.start(options, ({ port }) =>
   console.log(`GraphQL server is running on localhost:${port}`)
 );
-
-
-
-
-
-import pkg from "@prisma/client";
-const { PrismaClient } = pkg;
-
-const prisma = new PrismaClient();
-async function main() {
-  const allUsers = await prisma.user.findMany();
-  console.log(allUsers);
-}
-main()
-  .catch((e) => {
-    throw e;
-  })
-  .finally(async () => {
-    await prisma.$disconnect();
-  });
