@@ -20,14 +20,14 @@ const server = new GraphQLServer({
 
 // need to find a way to seed once deployed
 if (process.env.NODE_ENV === "production") {
-  main()
-    .catch((e) => {
-      console.error(e);
-      // process.exit(1);
-    })
-    .finally(async () => {
-      await prisma.$disconnect();
-    });
+  // main()
+  //   .catch((e) => {
+  //     console.error(e);
+  //     // process.exit(1);
+  //   })
+  //   .finally(async () => {
+  //     await prisma.$disconnect();
+  //   });
 
   server.use(express.static(path.join(__dirname, "client", "build")));
 
