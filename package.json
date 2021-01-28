@@ -3,25 +3,22 @@
   "name": "src",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "dependencies": {
     "@prisma/client": "^2.15.0",
-    "apollo-server": "^2.19.2",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "express-graphql": "^0.12.0",
-    "graphql": "^15.5.0",
-    "graphql-server-express": "^1.4.1",
     "graphql-tools": "^7.0.2",
+    "graphql-yoga": "^1.18.3",
     "nodemon": "^2.0.7"
   },
   "devDependencies": {
     "@prisma/cli": "^2.15.0"
   },
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "nodemon -e js,graphql server.js"
   },
   "keywords": [],
   "author": "",
