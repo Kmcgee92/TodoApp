@@ -14,9 +14,9 @@ const server = new GraphQLServer({
   schema,
 });
 console.log(process.env.NODE_ENV)
-if (process.env.NODE_ENV === "development") {
+if (process.env.NODE_ENV === "production") {
   server.use(express.static(path.join(__dirname, "build")));
-  
+
   server.get("/*", (req, res) => {
     res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
   });
