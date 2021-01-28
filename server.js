@@ -28,6 +28,7 @@ if (process.env.NODE_ENV === "production") {
     .finally(async () => {
       await prisma.$disconnect();
     });
+
   server.use(express.static(path.join(__dirname, "client", "build")));
 
   server.get("/*", (req, res) => {
