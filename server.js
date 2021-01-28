@@ -1,5 +1,6 @@
 
 import { GraphQLServer } from "graphql-yoga";
+import express from "express";
 // import bodyParser from "body-parser";
 import path from "path";
 import dotenv from "dotenv";
@@ -13,39 +14,21 @@ const server = new GraphQLServer({
   schema,
 });
 
-//routes
-// server.get(/\/(?!api)*/, (req, res) => {
-//   // res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
-//   res.sendFile(path.resolve(__dirname, "client", "public", "index.html"));
-// });
+
+server.use(express.static(path.join(__dirname, "build")));
+
+server.get("/*", (req, res) => {
+  res.sendFile(path.join(__dirname, "build", "index.html"));
+});
+
 const options = {
-  port: process.env.PORT,
+  port: process.env.PORT || 5000,
   endpoint: "/graphql",
   subscriptions: "/subscriptions",
   // playground: "/playground",
-  playground: "/graphql",
+  playground: "/playground",
 };
 
 server.start(options, ({ port }) =>
   console.log(`GraphQL server is running on localhost:${port}`)
 );
-
-
-
-
-
-import pkg from "@prisma/client";
-const { PrismaClient } = pkg;
-
-const prisma = new PrismaClient();
-async function main() {
-  const allUsers = await prisma.user.findMany();
-  console.log(allUsers);
-}
-main()
-  .catch((e) => {
-    throw e;
-  })
-  .finally(async () => {
-    await prisma.$disconnect();
-  });

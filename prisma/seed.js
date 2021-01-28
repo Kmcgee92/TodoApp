@@ -5,18 +5,18 @@ const prisma = new PrismaClient();
 async function main() {
   await prisma.user.create({
     data: {
-      name: "Jake",
-      email: `Jake@prisma.io`,
+      name: "Demo",
+      email: `Demo@BaseCampFranchising.com`,
       password: `password`,
       items: {
         create: [
           {
-            title: "title",
-            content: "content",
+            title: "Start Date",
+            content: "fill out new hire paperwork",
           },
           {
-            title: "item2",
-            content: "content2",
+            title: "Relocation",
+            content: "Get with Craig about the assistance with relocation.",
           },
         ],
       },

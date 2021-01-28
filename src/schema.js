@@ -5,9 +5,9 @@ import { resolvers } from "./resolvers.js";
 
 const typeDefs = `
   type Query {
-    Users: [User]
+    Users: [User!]!
     User(email: String!): User!
-    Items: [Item]
+    UserItems(userId: ID!): [Item]
   }
 
   type Mutation {
@@ -15,19 +15,27 @@ const typeDefs = `
       name: String!, 
       email: String!, 
       password: String!)
-      : User
+      : User,
+    createItem(
+      title: String!,
+      content: String!,
+      userId: ID!
+    ): Item
+    deleteItem(itemId: ID!): Item
+    updateItem(itemId: ID!): Item
   }
   type User {
-    id: ID
+    id: ID!
     name: String
-    email: String
-    password: String
+    email: String!
+    password: String!
     items: [Item!]!
   }
   type Item {
-    id: ID
+    id: ID!
     title: String
     content: String
+    userId: ID!
   }
 
 `;
