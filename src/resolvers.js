@@ -10,31 +10,27 @@ export const resolvers = {
       return await prisma.user.find((user) => {
         if (user.email === args.email) {
           return user;
-        }
-        else return []
-      })
+        } else return [];
+      });
     },
-    Users: async() => {
-      const allUsers = await prisma.user.findMany({ 
-        include: { 
+    Users: async () => {
+      const allUsers = await prisma.user.findMany({
+        include: {
           items: true,
         },
       });
       console.dir(allUsers, { depth: null });
-      return allUsers
+      return allUsers;
     },
-    Items: (_parent, args) => {
+    UserItems: (_parent, args) => {
       const userItems = prisma.item.findMany({
         where: {
-          // User.id = 
-        }
-      })
-    }
+          userId: Number(args.userId),
+        },
+      });
+      return userItems;
+    },
   },
-
-
-
-
 
   //! MUTATIONS
   Mutation: {
@@ -46,18 +42,18 @@ export const resolvers = {
           password: args.password,
         },
       });
-      return newUser
+      return newUser;
     },
     createItem: async (_parent, args) => {
-      console.log(typeof args.userId)
-      // const newItem = await prisma.item.create({
-      //   data: {
-      //     title: args.title,
-      //     content: args.content,
-      //     userId: args.userId
-      //   }
-      // })
-      // return newItem
-    }
-  }
+
+      const newItem = await prisma.item.create({
+        data: {
+          title: args.title,
+          content: args.content,
+          userId: Number(args.userId)
+        }
+      })
+      return newItem
+    },
+  },
 };

@@ -7,7 +7,7 @@ const typeDefs = `
   type Query {
     Users: [User!]!
     User(email: String!): User!
-    Items(userId: ID!): [Item]
+    UserItems(userId: ID!): [Item]
   }
 
   type Mutation {
