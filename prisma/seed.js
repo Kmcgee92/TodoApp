@@ -2,7 +2,7 @@ import pkg from "@prisma/client";
 const { PrismaClient } = pkg;
 const prisma = new PrismaClient();
 
-async function main() {
+export default async function main() {
   await prisma.user.create({
     data: {
       name: "Demo",
@@ -31,11 +31,11 @@ async function main() {
   console.dir(allUsers, { depth: null });
 }
 
-main()
-  .catch((e) => {
-    console.error(e);
-    process.exit(1);
-  })
-  .finally(async () => {
-    await prisma.$disconnect();
-  });
+// main()
+//   .catch((e) => {
+//     console.error(e);
+//     process.exit(1);
+//   })
+//   .finally(async () => {
+//     await prisma.$disconnect();
+//   });
