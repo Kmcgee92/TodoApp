@@ -6,7 +6,7 @@ import gql from "graphql-tag";
 
 const GET_USERS = gql`
   query {
-    UserItems(userId: 4) {
+    UserItems(userId: 1) {
       id
       title
       content
