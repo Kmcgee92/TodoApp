@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 
-// import Header from './Header/Header'
+import Header from "./Header/Header";
 
 //mui components
 import { makeStyles } from "@material-ui/core/styles";
