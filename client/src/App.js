@@ -7,9 +7,9 @@ import { useQuery } from "@apollo/react-hooks";
 import {GET_USER_ITEMS} from "./graphql/queries/GetUserItems"
 
 // redux
-import { useSelector, useDispatch } from "react-redux";
+// import { useSelector, useDispatch } from "react-redux";
 // core 
-import LandingPage from './Components/LandingPage/LandingPage'
+import LandingPageWrapper from "./Components/LandingPageWrapper/LandingPageWrapper";
 
 
 
@@ -19,60 +19,56 @@ const App = () => {
 
   if (error) return <h1>Database isn't connected properly</h1>;
   if (loading) return <h1>Loading...</h1>;
+  console.log(data);;
 
   return (
     <div>
-      <div>
-        Header Component: links will alter based off what route you are on
-      </div>
       <BrowserRouter>
         <Switch>
           <Route exact path="/">
-            <LandingPage />
+            <LandingPageWrapper />
           </Route>
-
-          {/* <Route exact path="/manageProfiles">
-            <ProfileManager />
-          </Route>
-
-          <Route exact path="/browse">
-            <Browse />
-          </Route>
-
-          <Route exact path="/history">
-            <History />
-          </Route>
-
-          <Route exact path="/watchlist">
-            <Watchlist />
-          </Route>
-
-          <Route exact path="/login">
-            <Signin />
-          </Route>
-
-          <Route exact path="/signup">
-            <Signup />
-          </Route>
-
-          <Route component={NotFound}>
-            <NotFound />
-          </Route> */}
         </Switch>
-        {/* temp */}
       </BrowserRouter>
-      <h1>React is being served</h1>
-      <div></div>
-      <div>
-        !!!---(
-        
-        
-        {data.UserItems ? data.UserItems[0].title : "Database did not connect"}
-        )---!!!
-      </div>
+      {/* <div>
+        {data.UserItems 
+        ? <div>Database Connected!: returned "{data.UserItems[0].content}"</div> 
+        : "Database did not connect"
+        }
+      </div> */}
     </div>
   );
 };
 
-
 export default App;
+
+
+
+
+/* <Route exact path="/manageProfiles">
+<ProfileManager />
+</Route>
+
+<Route exact path="/browse">
+<Browse />
+</Route>
+
+<Route exact path="/history">
+<History />
+</Route>
+
+<Route exact path="/watchlist">
+<Watchlist />
+</Route>
+
+<Route exact path="/login">
+<Signin />
+</Route>
+
+<Route exact path="/signup">
+<Signup />
+</Route>
+
+<Route component={NotFound}>
+<NotFound />
+</Route> */
