@@ -18,7 +18,7 @@ const server = new GraphQLServer({
   schema,
 });
 
-// need to find a way to seed once deployed
+//! need to find a progmatic way to seed with prisma/cli 2.0 once deployed
 if (process.env.NODE_ENV === "production") {
   // main()
   //   .catch((e) => {
@@ -41,7 +41,6 @@ const options = {
   port: process.env.PORT || 5000,
   endpoint: "/graphql",
   subscriptions: "/subscriptions",
-  // playground: "/playground",
   playground: "/playground",
 };
 
