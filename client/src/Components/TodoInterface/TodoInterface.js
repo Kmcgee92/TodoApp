@@ -1,4 +1,8 @@
-import React from "react";
+import React, { useState, useRef } from "react";
+
+// import Header from './Header/Header'
+
+//mui components
 import { makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import AppBar from "@material-ui/core/AppBar";
@@ -8,12 +12,19 @@ import List from "@material-ui/core/List";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
-import MailIcon from "@material-ui/icons/Mail";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+// mui icons
+import AssignmentIcon from "@material-ui/icons/Assignment";
+import DeleteIcon from "@material-ui/icons/Delete";
+import EditIcon from "@material-ui/icons/Edit";
+import NoteAddIcon from "@material-ui/icons/NoteAdd";
+import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
 
-const drawerWidth = 240;
+// nodejs library that concatenates classes
+import classNames from "classnames";
+
+const drawerWidth = "150px";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,12 +39,22 @@ const useStyles = makeStyles((theme) => ({
     flexShrink: 0,
   },
   drawerPaper: {
+    backgroundColor: "rgb(50,50,50, 1)",
     width: drawerWidth,
+    color: "white",
   },
   drawerContainer: {
-    overflow: "auto",
+  },
+  drawerItem: {
+    overflow: "hidden",
+  },
+  drawerItemText: {
+    textDecoration: "line-through",
+    // minWidth: "100px"
   },
   content: {
+    color: "white",
+    backgroundColor: "rgb(77, 79, 90, 1)",
     flexGrow: 1,
     padding: theme.spacing(3),
   },
@@ -41,7 +62,32 @@ const useStyles = makeStyles((theme) => ({
 
 export default function TodoInterface() {
   const classes = useStyles();
-  const TODOS = ["todo1", "todo2", "todo3"];
+  const [crossout] = useState(false)
+
+  const _TODOS = [
+    {
+      id: 1,
+      title: "Personal Bills",
+      content: "Content of the Todo",
+      status: true
+    },
+    {
+      id: 1,
+      title: "Business Stuff",
+      content: "Content of the Todo",
+      status: false
+    },
+    {
+      id: 1,
+      title: "Dog Park",
+      content: "Content of the Todo",
+      status: false
+    },
+    
+  ];
+  
+  // let intViewportWidth = window.innerWidth;
+  // console.log(intViewportWidth);
 
   return (
     <div className={classes.root}>
@@ -49,7 +95,7 @@ export default function TodoInterface() {
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
           <Typography variant="h6" noWrap>
-            {/* Clipped drawer */}
+            Todo List App
           </Typography>
         </Toolbar>
       </AppBar>
@@ -63,25 +109,48 @@ export default function TodoInterface() {
         <Toolbar />
         <div className={classes.drawerContainer}>
           <List>
-            {TODOS.map((text, index) => (
-              <ListItem button key={text}>
-                <Divider />
-                <ListItemIcon>
-                  <MailIcon />
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItem>
-            ))}
+            {_TODOS.map((data, index) => {
+              if (data.title.length > 9) {
+                data.title = `${data.title.slice(0, 9)}...`;
+              }
+              return (
+                <ListItem
+                  className={classes.drawerItem}
+                  button
+                  key={data.title}
+                >
+                  {/* <Divider /> */}
+                  {data.status ? (
+                    <CheckCircleOutlineIcon
+                      style={{ marginRight: "5px", color: "green" }}
+                    />
+                  ) : (
+                    <AssignmentIcon style={{ marginRight: "5px" }} />
+                  )}
+                  <ListItemText
+                    className={crossout && classes.drawerItemText}
+                    primary={data.title}
+                  />
+                </ListItem>
+              );
+            })}
           </List>
         </div>
       </Drawer>
       <main className={classes.content}>
         <Toolbar />
-        <Typography gutterBottom variant="h6">
-          Lorem ipsum dolor sit amet.
-        </Typography>
-        <Divider />
+        <header>
+          <Typography gutterBottom variant="h6">
+            This is the Title of the todo
+          </Typography>
+          <div style={{ color: "lightgreen", filter: "saturate(4)" }}>
+            Complete
+          </div>
+          {/* <div style={{ color: "darkred", filter: "saturate(10)"}}>Incomplete</div> */}
+        </header>
+        <Divider style={{ backgroundColor: "grey", marginBottom: "20px" }} />
         <Typography paragraph>
+          <span>{"Content of the Todo. "}</span>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
           eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus
           dolor purus non enim praesent elementum facilisis leo vel. Risus at
@@ -95,20 +164,6 @@ export default function TodoInterface() {
           vivamus at augue. At augue eget arcu dictum varius duis at consectetur
           lorem. Velit sed ullamcorper morbi tincidunt. Lorem donec massa sapien
           faucibus et molestie ac.
-        </Typography>
-        <Typography paragraph>
-          Consequat mauris nunc congue nisi vitae suscipit. Fringilla est
-          ullamcorper eget nulla facilisi etiam dignissim diam. Pulvinar
-          elementum integer enim neque volutpat ac tincidunt. Ornare suspendisse
-          sed nisi lacus sed viverra tellus. Purus sit amet volutpat consequat
-          mauris. Elementum eu facilisis sed odio morbi. Euismod lacinia at quis
-          risus sed vulputate odio. Morbi tincidunt ornare massa eget egestas
-          purus viverra accumsan in. In hendrerit gravida rutrum quisque non
-          tellus orci ac. Pellentesque nec nam aliquam sem et tortor. Habitant
-          morbi tristique senectus et. Adipiscing elit duis tristique
-          sollicitudin nibh sit. Ornare aenean euismod elementum nisi quis
-          eleifend. Commodo viverra maecenas accumsan lacus vel facilisis. Nulla
-          posuere sollicitudin aliquam ultrices sagittis orci a.
         </Typography>
       </main>
     </div>
