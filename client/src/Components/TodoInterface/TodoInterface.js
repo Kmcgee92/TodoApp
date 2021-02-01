@@ -1,104 +1,64 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 
-// import Header from './Header/Header'
+// core components
+import Header from './Header/Header'
+import Todo from './Todo/Todo'
+import TodoDetails from './TodoDetails/TodoDetails'
 
 //mui components
 import { makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
-import AppBar from "@material-ui/core/AppBar";
-import CssBaseline from "@material-ui/core/CssBaseline";
 import Toolbar from "@material-ui/core/Toolbar";
 import List from "@material-ui/core/List";
-import Typography from "@material-ui/core/Typography";
-import Divider from "@material-ui/core/Divider";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-// mui icons
-import AssignmentIcon from "@material-ui/icons/Assignment";
-import DeleteIcon from "@material-ui/icons/Delete";
-import EditIcon from "@material-ui/icons/Edit";
-import NoteAddIcon from "@material-ui/icons/NoteAdd";
-import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
 
-// nodejs library that concatenates classes
-import classNames from "classnames";
+// MUI styles
+import {TodoStyles} from './TodoStyles.js'
+const useStyles = makeStyles((theme) => (TodoStyles(theme, "150px")));
 
-const drawerWidth = "150px";
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: "flex",
-  },
-  appBar: {
-    zIndex: theme.zIndex.drawer + 1,
-    backgroundColor: "rgb(40,40,40, 1)",
-  },
-  drawer: {
-    width: drawerWidth,
-    flexShrink: 0,
-  },
-  drawerPaper: {
-    backgroundColor: "rgb(50,50,50, 1)",
-    width: drawerWidth,
-    color: "white",
-  },
-  drawerContainer: {
-  },
-  drawerItem: {
-    overflow: "hidden",
-  },
-  drawerItemText: {
-    textDecoration: "line-through",
-    // minWidth: "100px"
-  },
-  content: {
-    color: "white",
-    backgroundColor: "rgb(77, 79, 90, 1)",
-    flexGrow: 1,
-    padding: theme.spacing(3),
-  },
-}));
-
-export default function TodoInterface() {
-  const classes = useStyles();
-  const [crossout] = useState(false)
 
   const _TODOS = [
     {
       id: 1,
       title: "Personal Bills",
-      content: "Content of the Todo",
-      status: true
+      content:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Dictum varius duis at consectetur lorem donec massa sapien. Ornare arcu dui vivamus arcu felis bibendum ut tristique et. Semper risus in hendrerit gravida rutrum quisque non. Consequat interdum varius sit amet mattis vulputate enim nulla aliquet. Turpis massa sed elementum tempus egestas sed sed risus. Nisl condimentum id venenatis a. Gravida rutrum quisque non tellus orci ac auctor. Aliquam faucibus purus in massa tempor nec feugiat nisl pretium. Laoreet non curabitur gravida arcu ac tortor dignissim. Faucibus et molestie ac feugiat sed lectus vestibulum mattis ullamcorper. Lacus vel facilisis volutpat est velit egestas. Pharetra sit amet aliquam id. Eget egestas purus viverra accumsan in nisl nisi scelerisque eu. Tortor condimentum lacinia quis vel. Turpis massa sed elementum tempus egestas sed sed risus.",
+      status: true,
+      userId: 1,
     },
     {
-      id: 1,
+      id: 2,
       title: "Business Stuff",
-      content: "Content of the Todo",
-      status: false
+      content:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Dictum varius duis at consectetur lorem donec massa sapien. Ornare arcu dui vivamus arcu felis bibendum ut tristique et. Semper risus in hendrerit gravida rutrum quisque non. Gravida rutrum quisque non tellus orci ac auctor. Aliquam faucibus purus in massa tempor nec feugiat nisl pretium. Laoreet non curabitur gravida arcu ac tortor dignissim. Faucibus et molestie ac feugiat sed lectus vestibulum mattis ullamcorper. Lacus vel facilisis volutpat est velit egestas. Pharetra sit amet aliquam id. Eget egestas purus viverra accumsan in nisl nisi scelerisque eu. Tortor condimentum lacinia quis vel. Turpis massa sed elementum tempus egestas sed sed risus.",
+      status: false,
+      userId: 1,
     },
     {
-      id: 1,
-      title: "Dog Park",
-      content: "Content of the Todo",
-      status: false
+      id: 3,
+      title: "This is a really long todo title just for testing",
+      content:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Dictum varius duis at consectetur lorem donec massa sapien. Ornare arcu dui vivamus arcu felis bibendum ut tristique et. Faucibus et molestie ac feugiat sed lectus vestibulum mattis ullamcorper. Lacus vel facilisis volutpat est velit egestas. Pharetra sit amet aliquam id. Eget egestas purus viverra accumsan in nisl nisi scelerisque eu. Tortor condimentum lacinia quis vel. Turpis massa sed elementum tempus egestas sed sed risus.",
+      status: true,
+      userId: 1,
     },
-    
+    {
+      id: 4,
+      title: "TITLE",
+      content: "line 1",
+      status: false,
+      userId: 1,
+    },
   ];
-  
-  // let intViewportWidth = window.innerWidth;
-  // console.log(intViewportWidth);
+
+export default function TodoInterface() {
+  const classes = useStyles();
+  const [active, setActive] = useState(null)
 
   return (
     <div className={classes.root}>
-      <CssBaseline />
-      <AppBar position="fixed" className={classes.appBar}>
-        <Toolbar>
-          <Typography variant="h6" noWrap>
-            Todo List App
-          </Typography>
-        </Toolbar>
-      </AppBar>
+      <Header
+        classes={classes}
+      />
       <Drawer
         className={classes.drawer}
         variant="permanent"
@@ -110,28 +70,14 @@ export default function TodoInterface() {
         <div className={classes.drawerContainer}>
           <List>
             {_TODOS.map((data, index) => {
-              if (data.title.length > 9) {
-                data.title = `${data.title.slice(0, 9)}...`;
-              }
               return (
-                <ListItem
-                  className={classes.drawerItem}
-                  button
-                  key={data.title}
-                >
-                  {/* <Divider /> */}
-                  {data.status ? (
-                    <CheckCircleOutlineIcon
-                      style={{ marginRight: "5px", color: "green" }}
-                    />
-                  ) : (
-                    <AssignmentIcon style={{ marginRight: "5px" }} />
-                  )}
-                  <ListItemText
-                    className={crossout && classes.drawerItemText}
-                    primary={data.title}
-                  />
-                </ListItem>
+                <Todo
+                key={index}
+                active={active}
+                setActive={setActive}
+                data={data}
+                classes={classes}
+                />
               );
             })}
           </List>
@@ -139,32 +85,13 @@ export default function TodoInterface() {
       </Drawer>
       <main className={classes.content}>
         <Toolbar />
-        <header>
-          <Typography gutterBottom variant="h6">
-            This is the Title of the todo
-          </Typography>
-          <div style={{ color: "lightgreen", filter: "saturate(4)" }}>
-            Complete
-          </div>
-          {/* <div style={{ color: "darkred", filter: "saturate(10)"}}>Incomplete</div> */}
-        </header>
-        <Divider style={{ backgroundColor: "grey", marginBottom: "20px" }} />
-        <Typography paragraph>
-          <span>{"Content of the Todo. "}</span>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus
-          dolor purus non enim praesent elementum facilisis leo vel. Risus at
-          ultrices mi tempus imperdiet. Semper risus in hendrerit gravida rutrum
-          quisque non tellus. Convallis convallis tellus id interdum velit
-          laoreet id donec ultrices. Odio morbi quis commodo odio aenean sed
-          adipiscing. Amet nisl suscipit adipiscing bibendum est ultricies
-          integer quis. Cursus euismod quis viverra nibh cras. Metus vulputate
-          eu scelerisque felis imperdiet proin fermentum leo. Mauris commodo
-          quis imperdiet massa tincidunt. Cras tincidunt lobortis feugiat
-          vivamus at augue. At augue eget arcu dictum varius duis at consectetur
-          lorem. Velit sed ullamcorper morbi tincidunt. Lorem donec massa sapien
-          faucibus et molestie ac.
-        </Typography>
+        { active && 
+        <TodoDetails
+        data={_TODOS}
+        active={active}
+        classes={classes}
+        />
+        }
       </main>
     </div>
   );
