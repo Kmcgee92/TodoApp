@@ -1,4 +1,4 @@
-import Cookies from "js-cookie";
+// import Cookies from "js-cookie";
 
 export const SET_USER = "SET_USER";
 export const REMOVE_USER = "REMOVE_USER";
@@ -36,7 +36,7 @@ const updateProfile = (profileId) => {
 //! THUNKS
 //restore user
 export const generateSession = () => async (dispatch) => {
-  const access = Cookies.get("access_token_cookie");
+  // const access = Cookies.get("access_token_cookie");
   const res = await fetch("/api/users/token/refresh", {
     method: "POST",
     headers: {
@@ -106,7 +106,7 @@ export const updateUserProfile = (userId, profileId) => async (dispatch) => {
   });
 
   if (res.ok) {
-    const { profile } = await res.json();
+    // const { profile } = await res.json();
     dispatch(updateProfile(profileId));
   }
   return res;
