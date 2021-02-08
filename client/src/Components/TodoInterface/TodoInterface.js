@@ -1,13 +1,9 @@
 import React, { useState } from "react";
 
-<<<<<<< HEAD
-import Header from "./Header/Header";
-=======
 // core components
 import Header from './Header/Header'
 import Todo from './Todo/Todo'
-import TodoDetails from './TodoDetails/TodoDetails'
->>>>>>> 4d69a322992190d77b72309efe78052df1a932ec
+import TodoDetails from "./TodoDetails/TodoDetails";
 
 //mui components
 import { makeStyles } from "@material-ui/core/styles";
