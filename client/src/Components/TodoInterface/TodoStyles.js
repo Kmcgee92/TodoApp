@@ -18,6 +18,7 @@ export const TodoStyles = (theme, drawerWidth) => ({
   header: {
     display: "flex",
     justifyContent: "space-between",
+    flexShrink: 1,
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
@@ -41,6 +42,20 @@ export const TodoStyles = (theme, drawerWidth) => ({
   },
   crossout: {
     textDecoration: "line-through",
+  },
+  signinForm: {
+    display: "flex",
+    flexWrap: "nowrap",
+  },
+  authInputs: {
+    color: "white",
+    margin: "2px 5px 0 0",
+    padding: "0 5px",
+  },
+  signupContent: {
+    display: "flex",
+    justifyContent: "center",
+    flexWrap: "nowrap",
   },
   content: {
     color: "white",

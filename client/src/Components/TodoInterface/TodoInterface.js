@@ -16,7 +16,7 @@ import {TodoStyles} from './TodoStyles.js'
 const useStyles = makeStyles((theme) => (TodoStyles(theme, "150px")));
 
 
-  const _TODOS = [
+  const data = [
     {
       id: 1,
       title: "Personal Bills",
@@ -48,17 +48,17 @@ const useStyles = makeStyles((theme) => (TodoStyles(theme, "150px")));
       status: false,
       userId: 1,
     },
-  ];
-
+    ];
 export default function TodoInterface() {
+  const [DATA] = useState([]);
   const classes = useStyles();
   const [active, setActive] = useState(null)
+  const [user, setUser] = useState({})
+
 
   return (
     <div className={classes.root}>
-      <Header
-        classes={classes}
-      />
+      <Header classes={classes} />
       <Drawer
         className={classes.drawer}
         variant="permanent"
@@ -69,29 +69,38 @@ export default function TodoInterface() {
         <Toolbar />
         <div className={classes.drawerContainer}>
           <List>
-            {_TODOS.map((data, index) => {
-              return (
-                <Todo
-                key={index}
-                active={active}
-                setActive={setActive}
-                data={data}
-                classes={classes}
-                />
-              );
-            })}
+            {/* need to render something is data is empty? */}
+            {DATA.length === 0 ? (
+              <div></div>
+            ) : (
+              DATA.map((data, index) => {
+                return (
+                  <Todo
+                    key={index}
+                    active={active}
+                    setActive={setActive}
+                    data={data}
+                    classes={classes}
+                  />
+                );
+              })
+            )}
           </List>
         </div>
       </Drawer>
       <main className={classes.content}>
         <Toolbar />
-        { active && 
-        <TodoDetails
-        data={_TODOS}
-        active={active}
-        classes={classes}
-        />
-        }
+        {Object.keys(user).length === 0 ? (
+          <div className={classes.signupContent}>
+            <span>
+              need to create an account? Sign up 
+            <a href="#">here</a>
+            </span>
+          </div>
+        ) : null}
+        {active && (
+          <TodoDetails data={DATA} active={active} classes={classes} />
+        )}
       </main>
     </div>
   );
