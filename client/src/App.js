@@ -15,10 +15,10 @@ import LandingPageWrapper from "./Components/LandingPageWrapper/LandingPageWrapp
 
 
 const App = () => {
-  const { loading, error } = useQuery(GET_USER_ITEMS);
+  // const { loading, error } = useQuery(GET_USER_ITEMS);
   // const { loading, error, data } = useQuery(GET_USER_ITEMS);
-  if (error) return <h1>Database isn't connected properly</h1>;
-  if (loading) return <h1>Loading...</h1>;
+  // if (error) return <h1>Database isn't connected properly</h1>;
+  // if (loading) return <h1>Loading...</h1>;
   // console.log(data);;
 
   return (
