@@ -1,12 +1,9 @@
-// import Cookies from "js-cookie";
-// Apollo GQL
-import { useQuery, useLazyQuery } from "@apollo/react-hooks";
-import {GET_USER} from "../../graphql/queries/GetUser"
+import Cookies from "js-cookie";
 
 
 export const SET_USER = "SET_USER";
-export const REMOVE_USER = "REMOVE_USER";
-export const CREATE_USER = "CREATE_USER";
+export const LOGIN_USER = "LOGIN_USER";
+export const LOGOUT_USER = "LOGOUT_USER";
 
 //!ACTIONS
 export const setUser = (user) => {
@@ -16,58 +13,66 @@ export const setUser = (user) => {
   };
 };
 
-export const removeUser = () => {
+export const loginUser = (data) => {
   return {
-    type: REMOVE_USER,
+    type: LOGIN_USER,
+    data,
   };
 };
-
-export const createUser = (user) => {
+export const logoutUser = (data) => {
   return {
-    type: CREATE_USER,
-    user,
+    type: LOGOUT_USER,
+    data,
   };
 };
 
 
 //! THUNKS
-//restore user thunk
-export const generateSession = () => async (dispatch) => {
-  // const access = Cookies.get("access_token_cookie");
-  const res = await fetch("/api/users/token/refresh", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-
-  if (res.ok) {
-    const data = await res.json();
-    dispatch(setUser(data));
-  }
-  return res;
-};
-
 //login thunk
 export const loginHandler = (data) => {
   return async (dispatch) => {
-    console.log("user info recieved", data);
+    console.log(data);
+    Cookies.set("token", data.Login.token);
+    dispatch(loginUser(data));
   };
 }
 
-//logout thunk
-export const logout = () => async (dispatch) => {
-  const res = await fetch("/api/users/token/remove", {
-    method: "post",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-  if (res.ok) {
-    dispatch(removeUser());
-  }
-  return res;
+export const logoutHandler = () => {
+  return async (dispatch) => {
+    Cookies.remove("token");
+    dispatch(logoutUser());
+  };
 };
+//restore user thunk
+// export const generateSession = () => async (dispatch) => {
+//   // const access = Cookies.get("access_token_cookie");
+//   const res = await fetch("/api/users/token/refresh", {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//   });
+
+//   if (res.ok) {
+//     const data = await res.json();
+//     dispatch(setUser(data));
+//   }
+//   return res;
+// };
+
+//logout thunk
+// export const logout = () => async (dispatch) => {
+//   const res = await fetch("/api/users/token/remove", {
+//     method: "post",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//   });
+//   if (res.ok) {
+//     dispatch(removeUser());
+//   }
+//   return res;
+// };
 
 // export const signup = (name, email, password) => async (dispatch) => {
 //   const response = await fetch("/api/users/signup", {

@@ -16,7 +16,6 @@ const typeDefs = `
   
   type Mutation {
     Login(email: String!, password: String!): AuthPayload
-
     Signup(
       name: String!, 
       email: String!, 
@@ -31,6 +30,7 @@ const typeDefs = `
     UpdateItem(itemId: ID!): Item
   }
   type AuthPayload {
+    error: String
     token: String
     user: User
   }

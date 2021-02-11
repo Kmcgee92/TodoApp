@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+// redux
+import { useSelector } from "react-redux";
 
 // core components
 import Header from './Header/Header'
 import Todo from './Todo/Todo'
 import TodoDetails from "./TodoDetails/TodoDetails";
-
+import LoadingSpinner from "./LoadingSpinner/LoadingSpinner";
 //mui components
 import { makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
@@ -50,15 +52,14 @@ const useStyles = makeStyles((theme) => (TodoStyles(theme, "150px")));
   //   },
   //   ];
 export default function TodoInterface() {
-  const [DATA] = useState([]);
   const classes = useStyles();
-  const [active, setActive] = useState(null)
-  const [user, setUser] = useState({})
-
+  const [dataLoading, setDataLoading] = useState(false);
+  const [active, setActive] = useState(null);
+  const activeUser = useSelector((state) => state.auth.activeUser);
 
   return (
     <div className={classes.root}>
-      <Header classes={classes} />
+      <Header classes={classes} setDataLoading={setDataLoading} />
       <Drawer
         className={classes.drawer}
         variant="permanent"
@@ -69,11 +70,9 @@ export default function TodoInterface() {
         <Toolbar />
         <div className={classes.drawerContainer}>
           <List>
-            {/* need to render something is data is empty? */}
-            {DATA.length === 0 ? (
-              <div></div>
-            ) : (
-              DATA.map((data, index) => {
+            {Object.keys(activeUser).length !== 0 &&
+              !dataLoading &&
+              activeUser.items.map((data, index) => {
                 return (
                   <Todo
                     key={index}
@@ -83,24 +82,25 @@ export default function TodoInterface() {
                     classes={classes}
                   />
                 );
-              })
-            )}
+              })}
           </List>
         </div>
       </Drawer>
       <main className={classes.content}>
         <Toolbar />
-        {Object.keys(user).length === 0 ? (
+        {!Object.keys(activeUser).length ? (
           <div className={classes.signupContent}>
             <span>
-              need to create an account? Sign up 
-            <a href="#">here</a>
+              need to create an account? Sign up
+              {/* <a>here</a> */}
             </span>
           </div>
         ) : null}
-        {active && (
-          <TodoDetails data={DATA} active={active} classes={classes} />
+        {active && <TodoDetails active={active} classes={classes} />}
+        {dataLoading && Object.keys(activeUser).length !== 0 && (
+          <LoadingSpinner classes={classes} />
         )}
+        {/* {true && <LoadingSpinner classes={classes}        />} */}
       </main>
     </div>
   );

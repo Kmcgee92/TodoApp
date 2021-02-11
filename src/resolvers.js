@@ -1,6 +1,6 @@
 import pkg from "@prisma/client";
 const { PrismaClient } = pkg;
-//! WORK ON PASSWORD HASHING / USER AUTH IN THE MORNING!!!
+
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
@@ -11,7 +11,6 @@ export const resolvers = {
   //! QUERY
   Query: {
     User: async (_parent, args, context, info) => {
-      console.log(args);
       // return await prisma.user.findOne((user) => {
       const existingUser = await prisma.user.findUnique({
         where: {
@@ -21,8 +20,6 @@ export const resolvers = {
           items: true,
         },
       });
-
-      console.log(existingUser);
       return { ...existingUser, jwt: true };
     },
 
@@ -48,29 +45,39 @@ export const resolvers = {
   Mutation: {
     // user Auth
     Login: async (_parents, args, context, info) => {
-      console.log(args);
-      const existingUser = await prisma.user.findUnique({
-        where: {
-          email: args.email,
-        },
-        include: {
-          items: true,
-        },
-      });
-      const {password} = existingUser 
+      try {
+        const existingUser = await prisma.user.findUnique({
+          where: {
+            email: args.email,
+          },
+          include: {
+            items: true,
+          },
+        });
+        const { password } = existingUser;
 
-      // check hashed password to password in args
-      bcrypt.compare(args.password, password);
+        // check hashed password to password in args
+        if (!(await bcrypt.compare(args.password, password))) {
+          return { error: "Invalid Credentials" };
+        }
 
-      // create jwt token 
-      const token = jwt.sign({ userId: existingUser.id }, "ENV VARIABLE APP SECRET");
-      // return responses accordingly
-      return { token, user: existingUser };
+        // create jwt token
+        const token = jwt.sign(
+          { userId: existingUser.id },
+          process.env.APP_SECRET
+        );
+        // return responses accordingly
+        return { token, user: existingUser };
+      } catch (e) {
+        return {
+          error:
+            "There was an issue finding that email or an invalid password. Please try again.",
+        };
+      }
     },
     // replace CreateUser with Signup
     Signup: async (_parent, args, context, info) => {
-      console.log(args)
-      const hashedPass = await bcrypt.hash(args.password, 10)
+      const hashedPass = await bcrypt.hash(args.password, 10);
 
       const user = await prisma.user.create({
         data: {
@@ -79,13 +86,13 @@ export const resolvers = {
           password: hashedPass,
         },
       });
-      const token = jwt.sign({ userId: user.id }, "ENV VARIABLE APP SECRET")
+      const token = jwt.sign({ userId: user.id }, process.env.APP_SECRET);
 
-        return {
-          token,
-          user,
-        }
-      },
+      return {
+        token,
+        user,
+      };
+    },
     // CreateUser: async (_parent, args) => {
     //   const newUser = await prisma.user.create({
     //     data: {

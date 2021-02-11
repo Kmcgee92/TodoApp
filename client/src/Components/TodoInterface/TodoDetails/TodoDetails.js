@@ -18,7 +18,6 @@ const TodoDetails = ({ data, active, classes }) => {
     setTitle(current.title);
   }, [current]);
 
-  console.log(activeTodo.title);
   const handleOnChange = (e) => {
     setTitle(e.target.value);
   };

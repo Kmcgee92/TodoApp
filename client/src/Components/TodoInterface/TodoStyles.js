@@ -1,4 +1,38 @@
+import { orange, green } from "@material-ui/core/colors";
+
+const spinnerStyles = {
+  root: {
+    width: "100%",
+    height: "100%",
+  },
+  wrapper: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
+    height: "100%",
+    position: "relative",
+  },
+  buttonSuccess: {
+    backgroundColor: green[500],
+    "&:hover": {
+      cursor: "default",
+      backgroundColor: green[500],
+    },
+  },
+  dataLoading: {
+    backgroundColor: "#E25822",
+  },
+  fabProgress: {
+    color: "#E25822",
+    position: "absolute",
+
+    zIndex: 1,
+  },
+};
+
 export const TodoStyles = (theme, drawerWidth) => ({
+  ...spinnerStyles,
   root: {
     display: "flex",
   },
@@ -19,6 +53,11 @@ export const TodoStyles = (theme, drawerWidth) => ({
     display: "flex",
     justifyContent: "space-between",
     flexShrink: 1,
+  },
+  serverError: {
+    color: "red",
+    display: "flex",
+    alignItems: "center",
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
@@ -51,6 +90,9 @@ export const TodoStyles = (theme, drawerWidth) => ({
     color: "white",
     margin: "2px 5px 0 0",
     padding: "0 5px",
+    "$:after": {
+      borderBottom: `2px solid ${orange[900]} !important`,
+    },
   },
   signupContent: {
     display: "flex",
