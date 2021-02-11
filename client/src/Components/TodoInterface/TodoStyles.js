@@ -25,8 +25,8 @@ const signupModalStyles = {
     flexDirection: "column"
   },
   signupInput: {
+    color: "white",
     margin: "20px",
-
     boxSizing: "border-box"
   },
   visibilityIcon: {

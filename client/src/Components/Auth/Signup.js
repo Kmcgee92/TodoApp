@@ -29,7 +29,7 @@ const Signup = ({ classes, setModalOpen }) => {
               <form className={classes.signupForm}>
                 <TextField
                   label="Name"
-                  type="password"
+                  type="name"
                   autoComplete="current-password"
                   variant="outlined"
                   className={classes.signupInput}
@@ -40,6 +40,7 @@ const Signup = ({ classes, setModalOpen }) => {
                 />
                 <TextField
                   label="Email"
+                  type="email"
                   variant="outlined"
                   className={classes.signupInput}
                   InputProps={{

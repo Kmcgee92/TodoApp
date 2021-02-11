@@ -102,7 +102,7 @@ export default function TodoInterface() {
             </span>
           </div>
         ) : null}
-        {true && <Signup classes={classes} setModalOpen={setModalOpen} />}
+        {modalOpen && <Signup classes={classes} setModalOpen={setModalOpen} />}
         {active && <TodoDetails active={active} classes={classes} />}
         {dataLoading && Object.keys(activeUser).length !== 0 && (
           <LoadingSpinner classes={classes} />
