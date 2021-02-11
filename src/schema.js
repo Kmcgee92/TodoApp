@@ -15,19 +15,20 @@ const typeDefs = `
   }
   
   type Mutation {
-    login(email: String!, password: String!): AuthPayload
-    createUser(
+    Login(email: String!, password: String!): AuthPayload
+
+    Signup(
       name: String!, 
       email: String!, 
       password: String!)
-      : User,
-    createItem(
+      : AuthPayload,
+    CreateItem(
       title: String!,
       content: String!,
       userId: ID!
     ): Item
-    deleteItem(itemId: ID!): Item
-    updateItem(itemId: ID!): Item
+    DeleteItem(itemId: ID!): Item
+    UpdateItem(itemId: ID!): Item
   }
   type AuthPayload {
     token: String
@@ -38,7 +39,6 @@ const typeDefs = `
     name: String
     email: String
     password: String
-    jwt: String
     items: [Item!]
   }
   type Item {

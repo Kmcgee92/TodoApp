@@ -3,8 +3,9 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loginHandler } from "../../redux/actions/authActions";
 // apollo
-import { useQuery, useLazyQuery } from "@apollo/react-hooks";
-import { GET_USER } from "../../graphql/queries/GetUser";
+import { useQuery, useMutation } from "@apollo/react-hooks";
+// import { GET_USER } from "../../graphql/queries/GetUser";
+import { GET_USER_BY_LOGIN } from "../../graphql/mutations/login";
 
 
 // mui components
@@ -31,13 +32,16 @@ const Login = ({classes}) => {
   const [noUserFound, setNoUserFound] = useState(false);
   const [triggerRedux, setTriggerRedux] = useState(false);
 
-  let [getUserByLogin, { error, loading, data }] = useLazyQuery(GET_USER);
+  let [getUserByLogin, { data, loading, error }] = useMutation(
+    GET_USER_BY_LOGIN
+  );
 
 useEffect(() => {
   if (!error && data && !loading) {
-    if(!data.User) {
-      setNoUserFound(true)
-      return
+    console.log(data);
+    if (!data.Login) {
+      setNoUserFound(true);
+      return;
     }
     dispatch(loginHandler(data));
   }
@@ -70,10 +74,10 @@ useEffect(() => {
 
     if(!emailCurrentError && !passwordCurrentError) {
       getUserByLogin({
-        fetchPolicy: "network-only",
+        // fetchPolicy: "network-only",
         variables: {
           email: email,
-          password: password
+          password: password,
         },
       });
     }
