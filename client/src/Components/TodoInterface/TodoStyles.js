@@ -2,8 +2,6 @@ import { orange, green } from "@material-ui/core/colors";
 const signupModalStyles = {
   modalContainer: {
     zindex: 10000,
-    height: "1%",
-    width: "1%",
     position: "relative",
     top: 0,
     height: "60vh",
@@ -13,8 +11,34 @@ const signupModalStyles = {
     paddingTop: "1%",
   },
   modalContent: {
-    backgroundColor: "rgb(0,0,0,.5)",
+    width: "40vw",
+    backgroundColor: "rgb(60,60,60,.5)",
     height: "100%",
+  },
+  signupHeader: {
+    display: "flex",
+    justifyContent: "center",
+  },
+  signupForm: {
+    padding: "20px",
+    display: "flex",
+    flexDirection: "column"
+  },
+  signupInput: {
+    margin: "20px",
+
+    boxSizing: "border-box"
+  },
+  visibilityIcon: {
+    color: "grey",
+    "&:hover": {
+      color: "white",
+      cursor: "pointer"
+
+    }
+  },
+  signupFooter: {
+
   },
 };
 
@@ -109,14 +133,19 @@ export const TodoStyles = (theme, drawerWidth) => ({
     color: "white",
     margin: "2px 5px 0 0",
     padding: "0 5px",
-    "$:after": {
-      borderBottom: `2px solid ${orange[900]} !important`,
-    },
   },
   signupContent: {
     display: "flex",
     justifyContent: "center",
     flexWrap: "nowrap",
+  },
+  signupToggle: {
+    color: "white",
+    textDecoration: "underline",
+    "&:hover": {
+      cursor: "pointer",
+      color: orange[900],
+    },
   },
   content: {
     color: "white",

@@ -89,15 +89,23 @@ export default function TodoInterface() {
       </Drawer>
       <main className={classes.content}>
         <Toolbar />
-        {!Object.keys(activeUser).length ? (
+        {!Object.keys(activeUser).length && !modalOpen ? (
           <div className={classes.signupContent}>
-            <span>need to create an account? <span style={{cursor: "pointer"}}onClick={()=> setModalOpen(true)}>Signup</span></span>
+            <span>
+              need to create an account?{" "}
+              <span
+                className={classes.signupToggle}
+                onClick={() => setModalOpen(true)}
+              >
+                Signup
+              </span>
+            </span>
           </div>
         ) : null}
-        {modalOpen && <Signup classes={classes} setModalOpen={setModalOpen}/>}
+        {true && <Signup classes={classes} setModalOpen={setModalOpen} />}
         {active && <TodoDetails active={active} classes={classes} />}
         {dataLoading && Object.keys(activeUser).length !== 0 && (
-            <LoadingSpinner classes={classes} />
+          <LoadingSpinner classes={classes} />
         )}
         {/* {true && <LoadingSpinner classes={classes}        />} */}
       </main>
