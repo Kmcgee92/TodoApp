@@ -1,4 +1,22 @@
 import { orange, green } from "@material-ui/core/colors";
+const signupModalStyles = {
+  modalContainer: {
+    zindex: 10000,
+    height: "1%",
+    width: "1%",
+    position: "relative",
+    top: 0,
+    height: "60vh",
+    width: "100%",
+    display: "flex",
+    justifyContent: "center",
+    paddingTop: "1%",
+  },
+  modalContent: {
+    backgroundColor: "rgb(0,0,0,.5)",
+    height: "100%",
+  },
+};
 
 const spinnerStyles = {
   root: {
@@ -32,6 +50,7 @@ const spinnerStyles = {
 };
 
 export const TodoStyles = (theme, drawerWidth) => ({
+  ...signupModalStyles,
   ...spinnerStyles,
   root: {
     display: "flex",

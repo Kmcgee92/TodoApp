@@ -7,16 +7,16 @@ import Header from './Header/Header'
 import Todo from './Todo/Todo'
 import TodoDetails from "./TodoDetails/TodoDetails";
 import LoadingSpinner from "./LoadingSpinner/LoadingSpinner";
+import Signup from "../Auth/Signup";
 //mui components
 import { makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import Toolbar from "@material-ui/core/Toolbar";
 import List from "@material-ui/core/List";
-
 // MUI styles
 import {TodoStyles} from './TodoStyles.js'
-const useStyles = makeStyles((theme) => (TodoStyles(theme, "150px")));
 
+const useStyles = makeStyles((theme) => (TodoStyles(theme, "150px")));
 
   // const data = [
   //   {
@@ -55,6 +55,7 @@ export default function TodoInterface() {
   const classes = useStyles();
   const [dataLoading, setDataLoading] = useState(false);
   const [active, setActive] = useState(null);
+  const [modalOpen, setModalOpen] = useState(false)
   const activeUser = useSelector((state) => state.auth.activeUser);
 
   return (
@@ -90,15 +91,13 @@ export default function TodoInterface() {
         <Toolbar />
         {!Object.keys(activeUser).length ? (
           <div className={classes.signupContent}>
-            <span>
-              need to create an account? Sign up
-              {/* <a>here</a> */}
-            </span>
+            <span>need to create an account? <span style={{cursor: "pointer"}}onClick={()=> setModalOpen(true)}>Signup</span></span>
           </div>
         ) : null}
+        {modalOpen && <Signup classes={classes} setModalOpen={setModalOpen}/>}
         {active && <TodoDetails active={active} classes={classes} />}
         {dataLoading && Object.keys(activeUser).length !== 0 && (
-          <LoadingSpinner classes={classes} />
+            <LoadingSpinner classes={classes} />
         )}
         {/* {true && <LoadingSpinner classes={classes}        />} */}
       </main>

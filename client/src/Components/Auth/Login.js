@@ -12,9 +12,16 @@ import Button from "@material-ui/core/Button";
 import Input from "@material-ui/core/Input";
 import FormControl from "@material-ui/core/FormControl";
 import FormHelperText from "@material-ui/core/FormHelperText";
-import { MuiThemeProvider, ThemeProvider } from "@material-ui/core/styles";
-// custom theme trial
-import {theme} from "../TodoInterface/Header/headerTheme"
+import { MuiThemeProvider } from "@material-ui/core/styles";
+import { createMuiTheme } from "@material-ui/core/styles";
+// custom input theme trial
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: "#E25822 !important",
+    },
+  },
+});
 
 const Login = ({ classes, setDataLoading }) => {
   const dispatch = useDispatch();
