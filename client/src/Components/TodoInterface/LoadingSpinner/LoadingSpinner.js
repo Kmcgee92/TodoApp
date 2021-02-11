@@ -1,18 +1,3 @@
-// import React from "react";
-// // mui loading spinner
-// import CircularProgress from "@material-ui/core/CircularProgress";
-
-// const LoadingSpinner = () => {
-//   return (
-//     <div>
-//       <CircularProgress size={100} />
-//       <div>Loading...</div>
-//     </div>
-//   );
-// };
-
-// export default LoadingSpinner;
-
 import React from "react";
 import clsx from "clsx";
 import CircularProgress from "@material-ui/core/CircularProgress";

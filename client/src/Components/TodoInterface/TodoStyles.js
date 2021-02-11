@@ -1,4 +1,46 @@
 import { orange, green } from "@material-ui/core/colors";
+const signupModalStyles = {
+  modalContainer: {
+    zindex: 10000,
+    position: "relative",
+    top: 0,
+    height: "60vh",
+    width: "100%",
+    display: "flex",
+    justifyContent: "center",
+    paddingTop: "1%",
+  },
+  modalContent: {
+    width: "40vw",
+    backgroundColor: "rgb(60,60,60,.5)",
+    height: "100%",
+  },
+  signupHeader: {
+    display: "flex",
+    justifyContent: "center",
+  },
+  signupForm: {
+    padding: "20px",
+    display: "flex",
+    flexDirection: "column"
+  },
+  signupInput: {
+    color: "white",
+    margin: "20px",
+    boxSizing: "border-box"
+  },
+  visibilityIcon: {
+    color: "grey",
+    "&:hover": {
+      color: "white",
+      cursor: "pointer"
+
+    }
+  },
+  signupFooter: {
+
+  },
+};
 
 const spinnerStyles = {
   root: {
@@ -32,6 +74,7 @@ const spinnerStyles = {
 };
 
 export const TodoStyles = (theme, drawerWidth) => ({
+  ...signupModalStyles,
   ...spinnerStyles,
   root: {
     display: "flex",
@@ -90,14 +133,19 @@ export const TodoStyles = (theme, drawerWidth) => ({
     color: "white",
     margin: "2px 5px 0 0",
     padding: "0 5px",
-    "$:after": {
-      borderBottom: `2px solid ${orange[900]} !important`,
-    },
   },
   signupContent: {
     display: "flex",
     justifyContent: "center",
     flexWrap: "nowrap",
+  },
+  signupToggle: {
+    color: "white",
+    textDecoration: "underline",
+    "&:hover": {
+      cursor: "pointer",
+      color: orange[900],
+    },
   },
   content: {
     color: "white",
