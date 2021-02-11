@@ -3,7 +3,13 @@ import ReactDOM from 'react-dom';
 
 //Apollo / GQL
 import ApolloClient from "apollo-boost";
-import { ApolloProvider } from "@apollo/react-hooks";
+import {
+  ApolloProvider,
+  InMemoryCache,
+  HttpLink,
+  from,
+} from "@apollo/react-hooks";
+import { onError } from "@apollo/client/link/error";
 
 //redux
 import ReduxStore from "./redux/store/ReduxStore";
@@ -16,7 +22,11 @@ import './index.css';
 import App from "./App";
 
 
-const client = new ApolloClient({});
+
+
+const client = new ApolloClient({
+  cache: new InMemoryCache(),
+});
 const store = ReduxStore();
 
 ReactDOM.render(

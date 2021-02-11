@@ -9,7 +9,7 @@ const { PrismaClient } = pkg;
 const prisma = new PrismaClient();
 
 import { schema } from "./src/schema.js";
-import main from "./prisma/seed.js";
+// import main from "./prisma/seed.js";
 
 
 const __dirname = path.resolve();

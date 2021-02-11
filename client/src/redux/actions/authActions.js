@@ -1,9 +1,9 @@
-// import Cookies from "js-cookie";
+import Cookies from "js-cookie";
+
 
 export const SET_USER = "SET_USER";
-export const REMOVE_USER = "REMOVE_USER";
-export const CREATE_USER = "CREATE_USER";
-export const UPDATE_PROFILE = "UPDATE_PROFILE";
+export const LOGIN_USER = "LOGIN_USER";
+export const LOGOUT_USER = "LOGOUT_USER";
 
 //!ACTIONS
 export const setUser = (user) => {
@@ -13,101 +13,78 @@ export const setUser = (user) => {
   };
 };
 
-export const removeUser = () => {
+export const loginUser = (data) => {
   return {
-    type: REMOVE_USER,
+    type: LOGIN_USER,
+    data,
+  };
+};
+export const logoutUser = (data) => {
+  return {
+    type: LOGOUT_USER,
+    data,
   };
 };
 
-export const createUser = (user) => {
-  return {
-    type: CREATE_USER,
-    user,
-  };
-};
-
-const updateProfile = (profileId) => {
-  return {
-    type: UPDATE_PROFILE,
-    profileId,
-  };
-};
 
 //! THUNKS
-//restore user
-export const generateSession = () => async (dispatch) => {
-  // const access = Cookies.get("access_token_cookie");
-  const res = await fetch("/api/users/token/refresh", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-
-  if (res.ok) {
-    const data = await res.json();
-    dispatch(setUser(data));
-  }
-  return res;
-};
-
-//login
-export const login = (email, password) => {
+//login thunk
+export const loginHandler = (data) => {
   return async (dispatch) => {
-    const res = await fetch(`/api/users/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        // "XSRF-TOKEN": Cookies.get("XSRF-TOKEN")
-      },
-      body: JSON.stringify({ email, password }),
-    });
-    if (res.ok) {
-      const data = await res.json();
-      dispatch(setUser(data));
-    }
-    return res;
+    console.log(data);
+    Cookies.set("token", data.Login.token);
+    dispatch(loginUser(data));
+  };
+}
+
+export const logoutHandler = () => {
+  return async (dispatch) => {
+    Cookies.remove("token");
+    dispatch(logoutUser());
   };
 };
-//logout
-export const logout = () => async (dispatch) => {
-  const res = await fetch("/api/users/token/remove", {
-    method: "post",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-  if (res.ok) {
-    dispatch(removeUser());
-  }
-  return res;
-};
+//restore user thunk
+// export const generateSession = () => async (dispatch) => {
+//   // const access = Cookies.get("access_token_cookie");
+//   const res = await fetch("/api/users/token/refresh", {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//   });
 
-export const signup = (name, email, password) => async (dispatch) => {
-  const response = await fetch("/api/users/signup", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ name, email, password }),
-  });
-  if (response.ok) {
-    const user = await response.json();
-    dispatch(createUser(user));
-  }
-};
+//   if (res.ok) {
+//     const data = await res.json();
+//     dispatch(setUser(data));
+//   }
+//   return res;
+// };
 
-export const updateUserProfile = (userId, profileId) => async (dispatch) => {
-  const res = await fetch(`/api/users/profiles/${userId}/update/${profileId}`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+//logout thunk
+// export const logout = () => async (dispatch) => {
+//   const res = await fetch("/api/users/token/remove", {
+//     method: "post",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//   });
+//   if (res.ok) {
+//     dispatch(removeUser());
+//   }
+//   return res;
+// };
 
-  if (res.ok) {
-    // const { profile } = await res.json();
-    dispatch(updateProfile(profileId));
-  }
-  return res;
-};
+// export const signup = (name, email, password) => async (dispatch) => {
+//   const response = await fetch("/api/users/signup", {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//     body: JSON.stringify({ name, email, password }),
+//   });
+//   if (response.ok) {
+//     const user = await response.json();
+//     dispatch(createUser(user));
+//   }
+// };
+

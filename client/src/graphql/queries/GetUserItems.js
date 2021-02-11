@@ -1,8 +1,8 @@
 import gql from "graphql-tag";
 
 export const GET_USER_ITEMS = gql`
-  query {
-    UserItems(userId: 1) {
+  query($userId: ID!) {
+    UserItems(userId: $userId) {
       id
       title
       content

@@ -1,25 +1,35 @@
 import pkg from "@prisma/client";
 const { PrismaClient } = pkg;
 
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+
+
 const prisma = new PrismaClient();
 
 export const resolvers = {
   //! QUERY
   Query: {
-    User: async (_parent, args) => {
-      return await prisma.user.find((user) => {
-        if (user.email === args.email) {
-          return user;
-        } else return [];
+    User: async (_parent, args, context, info) => {
+      // return await prisma.user.findOne((user) => {
+      const existingUser = await prisma.user.findUnique({
+        where: {
+          email: args.email,
+        },
+        include: {
+          items: true,
+        },
       });
+      return { ...existingUser, jwt: true };
     },
+
     Users: async () => {
       const allUsers = await prisma.user.findMany({
         include: {
           items: true,
         },
       });
-      console.dir(allUsers, { depth: null });
+      // console.dir(allUsers, { depth: null });
       return allUsers;
     },
     UserItems: (_parent, args) => {
@@ -31,29 +41,77 @@ export const resolvers = {
       return userItems;
     },
   },
-
   //! MUTATIONS
   Mutation: {
-    createUser: async (_parent, args) => {
-      const newUser = await prisma.user.create({
+    // user Auth
+    Login: async (_parents, args, context, info) => {
+      try {
+        const existingUser = await prisma.user.findUnique({
+          where: {
+            email: args.email,
+          },
+          include: {
+            items: true,
+          },
+        });
+        const { password } = existingUser;
+
+        // check hashed password to password in args
+        if (!(await bcrypt.compare(args.password, password))) {
+          return { error: "Invalid Credentials" };
+        }
+
+        // create jwt token
+        const token = jwt.sign(
+          { userId: existingUser.id },
+          process.env.APP_SECRET
+        );
+        // return responses accordingly
+        return { token, user: existingUser };
+      } catch (e) {
+        return {
+          error:
+            "There was an issue finding that email or an invalid password. Please try again.",
+        };
+      }
+    },
+    // replace CreateUser with Signup
+    Signup: async (_parent, args, context, info) => {
+      const hashedPass = await bcrypt.hash(args.password, 10);
+
+      const user = await prisma.user.create({
         data: {
           name: args.name,
           email: args.email,
-          password: args.password,
+          password: hashedPass,
         },
       });
-      return newUser;
-    },
-    createItem: async (_parent, args) => {
+      const token = jwt.sign({ userId: user.id }, process.env.APP_SECRET);
 
+      return {
+        token,
+        user,
+      };
+    },
+    // CreateUser: async (_parent, args) => {
+    //   const newUser = await prisma.user.create({
+    //     data: {
+    //       name: args.name,
+    //       email: args.email,
+    //       password: args.password,
+    //     },
+    //   });
+    //   return newUser;
+    // },
+    CreateItem: async (_parent, args) => {
       const newItem = await prisma.item.create({
         data: {
           title: args.title,
           content: args.content,
-          userId: Number(args.userId)
-        }
-      })
-      return newItem
+          userId: Number(args.userId),
+        },
+      });
+      return newItem;
     },
   },
 };

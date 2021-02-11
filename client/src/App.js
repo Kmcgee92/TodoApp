@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, {useState} from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 
 // Apollo GQL
@@ -9,33 +9,27 @@ import {GET_USER_ITEMS} from "./graphql/queries/GetUserItems"
 // redux
 // import { useSelector, useDispatch } from "react-redux";
 // core 
-import LandingPageWrapper from "./Components/LandingPageWrapper/LandingPageWrapper";
+import TodoInterface from "./Components/TodoInterface/TodoInterface"
 
 
 
 
 const App = () => {
-  const { loading, error } = useQuery(GET_USER_ITEMS);
-  // const { loading, error, data } = useQuery(GET_USER_ITEMS);
-  if (error) return <h1>Database isn't connected properly</h1>;
-  if (loading) return <h1>Loading...</h1>;
+  // const { data, loading, error } = useQuery(GET_ACTIVE_USER);
+  // if (error) return <h1>Database isn't connected properly</h1>;
+  // if (loading) return <h1>Loading...</h1>;
   // console.log(data);;
+
 
   return (
     <div>
       <BrowserRouter>
         <Switch>
           <Route exact path="/">
-            <LandingPageWrapper />
+            <TodoInterface/>
           </Route>
         </Switch>
       </BrowserRouter>
-      {/* <div>
-        {data.UserItems 
-        ? <div>Database Connected!: returned "{data.UserItems[0].content}"</div> 
-        : "Database did not connect"
-        }
-      </div> */}
     </div>
   );
 };;
