@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loginHandler } from "../../redux/actions/authActions";
 // apollo
-import { useLazyQuery, useMutation } from "@apollo/react-hooks";
+import { useMutation } from "@apollo/react-hooks";
 // import { GET_USER } from "../../graphql/queries/GetUser";
 import { GET_USER_BY_LOGIN } from "../../graphql/mutations/login";
 
@@ -12,18 +12,8 @@ import Button from "@material-ui/core/Button";
 import Input from "@material-ui/core/Input";
 import FormControl from "@material-ui/core/FormControl";
 import FormHelperText from "@material-ui/core/FormHelperText";
-import { MuiThemeProvider } from "@material-ui/core/styles";
-import { createMuiTheme } from "@material-ui/core/styles";
-// custom input theme trial
-const theme = createMuiTheme({
-  palette: {
-    primary: {
-      main: "#E25822 !important",
-    },
-  },
-});
 
-const Login = ({ classes, setDataLoading }) => {
+const Login = ({ classes, setDataLoading, setModalOpen }) => {
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
   const [email, setEmail] = useState("demo@bcf.com");
@@ -32,7 +22,7 @@ const Login = ({ classes, setDataLoading }) => {
   const [passwordError, setPasswordError] = useState(false);
   const [noUserFound, setNoUserFound] = useState(false);
 
-  let [getUserByLogin, { data, loading, error    }] = useMutation(
+  let [getUserByLogin, { data, loading, error }] = useMutation(
     GET_USER_BY_LOGIN
   );
   useEffect(() => {
@@ -46,17 +36,17 @@ const Login = ({ classes, setDataLoading }) => {
   }, [dispatch, error, data, loading]);
 
   useEffect(() => {
-    if(loading) {
-      setDataLoading(true)
+    if (loading) {
+      setDataLoading(true);
       //! setting timeout to make loader visible
       // directly based off query for user info loading param
-        setTimeout(()=> setDataLoading(false), 2800)
+      setTimeout(() => setDataLoading(false), 2800);
     }
-
   }, [loading, setDataLoading]);
-  
+
   // error handling for login and perform DB Query which should be done in redux thunk
-  const handleLogin = async () => {
+  const handleLogin =  () => {
+    setModalOpen(false);
     setNoUserFound(false);
     setEmailError(false);
     setPasswordError(false);
@@ -81,7 +71,7 @@ const Login = ({ classes, setDataLoading }) => {
     }
 
     if (!emailCurrentError && !passwordCurrentError) {
-      setDataLoading(true)
+      setDataLoading(true);
       getUserByLogin({
         // fetchPolicy: "network-only",
         variables: {
@@ -90,20 +80,31 @@ const Login = ({ classes, setDataLoading }) => {
         },
       });
     }
-      setDataLoading(false)
+    setDataLoading(false);
   };
 
   return (
     <div className={classes.signinForm}>
-      {auth.error && (
-        <FormHelperText className={classes.serverError}>
-          {`${auth.error}`}
-        </FormHelperText>
-      )}
       <form>
-        <FormControl>
-          <MuiThemeProvider theme={theme}>
+
+          {auth.error && (
+            <FormHelperText className={classes.serverError}>
+              {`${auth.error}`}
+            </FormHelperText>
+          )}
+          {(emailError || passwordError) && (
+            <FormHelperText style={{ color: "red" }}>
+              please fill out all fields.
+            </FormHelperText>
+          )}
+          {noUserFound && (
+            <FormHelperText style={{ color: "red" }}>
+              500: Seems to be an issue with the server
+            </FormHelperText>
+          )}
+          <FormControl>
             <Input
+              required
               value={email}
               className={classes.authInputs}
               placeholder="email"
@@ -111,37 +112,26 @@ const Login = ({ classes, setDataLoading }) => {
               autoFocus={true}
               error={emailError}
               onChange={(e) => setEmail(e.target.value)}
+              onClick={()=> setModalOpen(false)}
+              />
+          </FormControl>
+          <FormControl>
+            <Input
+              required
+              value={password}
+              type="password"
+              className={classes.authInputs}
+              placeholder="password"
+              autoComplete="current-password"
+              error={passwordError}
+              onChange={(e) => setPassword(e.target.value)}
+              onClick={()=> setModalOpen(false)}
             />
-            {emailError && (
-              <FormHelperText style={{ color: "red" }}>
-                must be a valid email
-              </FormHelperText>
-            )}
-            {noUserFound && (
-              <FormHelperText style={{ color: "red" }}>
-                500: Seems to be an issue with the server
-              </FormHelperText>
-            )}
-          </MuiThemeProvider>
-        </FormControl>
-        <FormControl>
-          <Input
-            value={password}
-            className={classes.authInputs}
-            placeholder="password"
-            autoComplete="current-password"
-            error={passwordError}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          {passwordError && (
-            <FormHelperText style={{ color: "red" }}>
-              invalid password
-            </FormHelperText>
-          )}
-        </FormControl>
-        <Button onClick={handleLogin} className={classes.icon}>
-          Login
-        </Button>
+          </FormControl>
+          <Button onClick={handleLogin} className={classes.icon}>
+            Login
+          </Button>
+
       </form>
     </div>
   );

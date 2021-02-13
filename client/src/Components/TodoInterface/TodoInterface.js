@@ -57,10 +57,19 @@ export default function TodoInterface() {
   const [active, setActive] = useState(null);
   const [modalOpen, setModalOpen] = useState(false)
   const activeUser = useSelector((state) => state.auth.activeUser);
+  console.log(Object.keys(activeUser).length, modalOpen)
+
+  useEffect(()=> {
+    console.log("rerendered Interface")
+  },[activeUser, modalOpen])
 
   return (
     <div className={classes.root}>
-      <Header classes={classes} setDataLoading={setDataLoading} />
+      <Header 
+        classes={classes} 
+        setDataLoading={setDataLoading}
+        setModalOpen={setModalOpen}
+      />
       <Drawer
         className={classes.drawer}
         variant="permanent"
@@ -71,7 +80,7 @@ export default function TodoInterface() {
         <Toolbar />
         <div className={classes.drawerContainer}>
           <List>
-            {Object.keys(activeUser).length !== 0 &&
+            {activeUser.items &&
               !dataLoading &&
               activeUser.items.map((data, index) => {
                 return (
@@ -89,20 +98,22 @@ export default function TodoInterface() {
       </Drawer>
       <main className={classes.content}>
         <Toolbar />
-        {!Object.keys(activeUser).length && !modalOpen ? (
+        {!Object.keys(activeUser).length  && !modalOpen ? (
           <div className={classes.signupContent}>
             <span>
               need to create an account?{" "}
               <span
                 className={classes.signupToggle}
-                onClick={() => setModalOpen(true)}
+                onClick={()=>setModalOpen(true)}
               >
                 Signup
               </span>
             </span>
           </div>
         ) : null}
-        {modalOpen && <Signup classes={classes} setModalOpen={setModalOpen} />}
+        {(modalOpen || false) && (
+          <Signup classes={classes} setModalOpen={setModalOpen} />
+        )}
         {active && <TodoDetails active={active} classes={classes} />}
         {dataLoading && Object.keys(activeUser).length !== 0 && (
           <LoadingSpinner classes={classes} />

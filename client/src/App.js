@@ -1,16 +1,40 @@
 
-import React, {useState} from "react";
+import React from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-
-// Apollo GQL
-import { useQuery } from "@apollo/react-hooks";
-import {GET_USER_ITEMS} from "./graphql/queries/GetUserItems"
-
-// redux
-// import { useSelector, useDispatch } from "react-redux";
-// core 
+// core components
 import TodoInterface from "./Components/TodoInterface/TodoInterface"
+// styles
+import { MuiThemeProvider } from "@material-ui/core/styles";
+import { createMuiTheme } from "@material-ui/core/styles";
+import { orange, red } from "@material-ui/core/colors";
+// custom input theme trial
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: "#26a69a",
 
+      text: {
+        primary: "#0066ff",
+      },
+    },
+    secondary: {
+      main: "#26a69a",
+    },
+    error: {
+      main: red[900],
+    },
+    warning: {
+      main: "#0066ff",
+    },
+    // success: {
+    //   main: "",
+    // },
+  },
+  typography: {
+    fontSize: 16,
+    color: "red",
+  },
+});
 
 
 
@@ -23,13 +47,15 @@ const App = () => {
 
   return (
     <div>
-      <BrowserRouter>
-        <Switch>
-          <Route exact path="/">
-            <TodoInterface/>
-          </Route>
-        </Switch>
-      </BrowserRouter>
+      <MuiThemeProvider theme={theme}>
+        <BrowserRouter>
+          <Switch>
+            <Route exact path="/">
+              <TodoInterface  />
+            </Route>
+          </Switch>
+        </BrowserRouter>
+      </MuiThemeProvider>
     </div>
   );
 };;

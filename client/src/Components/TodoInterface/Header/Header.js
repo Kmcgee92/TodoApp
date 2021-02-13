@@ -15,7 +15,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import NoteAddIcon from "@material-ui/icons/NoteAdd";
 
 
-const Header = ({ classes, setDataLoading }) => {
+const Header = ({ classes, setDataLoading, setModalOpen }) => {
   const auth = useSelector((state) => state.auth);
 
   return (
@@ -37,7 +37,11 @@ const Header = ({ classes, setDataLoading }) => {
           </div>
           <div className={classes.signinForm}>
             {Object.keys(auth.activeUser).length === 0 ? (
-              <Login classes={classes} setDataLoading={setDataLoading} />
+              <Login 
+                classes={classes} 
+                setDataLoading={setDataLoading}
+                setModalOpen={setModalOpen}
+              />
             ) : (
               <Logout classes={classes} />
             )}

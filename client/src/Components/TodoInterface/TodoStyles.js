@@ -4,7 +4,7 @@ const signupModalStyles = {
     zindex: 10000,
     position: "relative",
     top: 0,
-    height: "60vh",
+    height: "auto",
     width: "100%",
     display: "flex",
     justifyContent: "center",
@@ -22,29 +22,63 @@ const signupModalStyles = {
   signupForm: {
     padding: "20px",
     display: "flex",
-    flexDirection: "column"
+    flexDirection: "column",
   },
   signupInput: {
-    color: "white",
+    filter: "saturate(300%)",
     margin: "20px",
-    boxSizing: "border-box"
+  },
+  signupInputChildren: {
+    backgroundColor: "rgb(100,100,100)",
+    color: "white",
   },
   visibilityIcon: {
     color: "grey",
     "&:hover": {
       color: "white",
-      cursor: "pointer"
-
-    }
+      cursor: "pointer",
+    },
   },
-  signupFooter: {
-
+  cancelButton: {
+    color: "grey",
+    "&:hover": {
+      color: "white",
+      cursor: "pointer",
+    },
   },
+  nameLength: {
+    position: 'relative',
+    display: "flex",
+    width: "100%",
+    justifyContent: "flex-end",
+    height: "50%",
+    padding: "0",
+    margin: "0",
+    color: "white",
+    fontSize: "10px",
+  },
+  nameLengthError: {
+    position: 'relative',
+    display: "flex",
+    width: "100%",
+    justifyContent: "flex-end",
+    height: "50%",
+    padding: "0",
+    margin: "0",
+    color: "red",
+    fontSize: "10px",
+  },
+  serverErrorStyles: {
+    color: "red",
+    display: "flex",
+    width: "100%",
+    justifyContent: "center",
+  }
 };
 
 const spinnerStyles = {
   root: {
-    width: "100%",
+    width: "600%",
     height: "100%",
   },
   wrapper: {
@@ -63,10 +97,10 @@ const spinnerStyles = {
     },
   },
   dataLoading: {
-    backgroundColor: "#E25822",
+    backgroundColor: "#26a69a",
   },
   fabProgress: {
-    color: "#E25822",
+    color: "#26a69a",
     position: "absolute",
 
     zIndex: 1,
@@ -104,7 +138,7 @@ export const TodoStyles = (theme, drawerWidth) => ({
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
-    backgroundColor: "rgb(40,40,40, 1)",
+    backgroundColor: "rgb(40,40,40, 1) !important",
   },
   inputs: {
     color: "white",
