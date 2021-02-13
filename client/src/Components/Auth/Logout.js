@@ -7,12 +7,17 @@ import {logoutHandler} from "../../redux/actions/authActions"
 //mui components
 import Button from "@material-ui/core/Button";
 
-const Logout = ({ classes }) => {
+const Logout = ({ classes, setActive }) => {
   const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    setActive(null)
+    dispatch(logoutHandler())
+  }
   return (
     <div>
       <Button
-        onClick={() => dispatch(logoutHandler())}
+        onClick={() => handleLogout()}
         className={classes.icon}
       >
         Logout

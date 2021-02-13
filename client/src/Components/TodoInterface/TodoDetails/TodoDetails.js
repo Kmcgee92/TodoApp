@@ -6,11 +6,13 @@ import Divider from "@material-ui/core/Divider";
 import InputBase from "@material-ui/core/InputBase";
 
 const TodoDetails = ({ data, active, classes }) => {
+  // console.log("inside the details component",data, active);
   const [complete, setComplete] = useState(false);
   const [activeTodo, setActiveTodo] = useState({ title: "title" });
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [current] = data.filter((item) => item.id === active);
+  const [current] = useState(data.filter((item) => item.id === active));
+  // console.log(current);;
 
   useEffect(() => {
     setComplete(current.status);
@@ -25,6 +27,9 @@ const TodoDetails = ({ data, active, classes }) => {
   const handleSave = (e) => {
     console.log("saved");
   };
+  // if (!Object.keys(data.length)) {
+  //   return <div></div>;
+  // }
   return (
     <div>
       <header>
@@ -52,6 +57,6 @@ const TodoDetails = ({ data, active, classes }) => {
       <Typography paragraph>{activeTodo.content}</Typography>
     </div>
   );
-};
+};;
 
 export default TodoDetails;

@@ -52,23 +52,21 @@ const useStyles = makeStyles((theme) => (TodoStyles(theme, "150px")));
   //   },
   //   ];
 export default function TodoInterface() {
+  const activeUser = useSelector((state) => state.auth.activeUser);
   const classes = useStyles();
   const [dataLoading, setDataLoading] = useState(false);
   const [active, setActive] = useState(null);
-  const [modalOpen, setModalOpen] = useState(false)
-  const activeUser = useSelector((state) => state.auth.activeUser);
-  console.log(Object.keys(activeUser).length, modalOpen)
+  const [modalOpen, setModalOpen] = useState(false);
 
-  useEffect(()=> {
-    console.log("rerendered Interface")
-  },[activeUser, modalOpen])
+  useEffect(() => {}, [activeUser, modalOpen]);
 
   return (
     <div className={classes.root}>
-      <Header 
-        classes={classes} 
+      <Header
+        classes={classes}
         setDataLoading={setDataLoading}
         setModalOpen={setModalOpen}
+        setActive={setActive}
       />
       <Drawer
         className={classes.drawer}
@@ -98,13 +96,13 @@ export default function TodoInterface() {
       </Drawer>
       <main className={classes.content}>
         <Toolbar />
-        {!Object.keys(activeUser).length  && !modalOpen ? (
+        {!Object.keys(activeUser).length && !modalOpen ? (
           <div className={classes.signupContent}>
             <span>
               need to create an account?{" "}
               <span
                 className={classes.signupToggle}
-                onClick={()=>setModalOpen(true)}
+                onClick={() => setModalOpen(true)}
               >
                 Signup
               </span>
@@ -114,7 +112,13 @@ export default function TodoInterface() {
         {(modalOpen || false) && (
           <Signup classes={classes} setModalOpen={setModalOpen} />
         )}
-        {active && <TodoDetails active={active} classes={classes} />}
+        {active && (
+          <TodoDetails
+            data={activeUser.items}
+            active={active}
+            classes={classes}
+          />
+        )}
         {dataLoading && Object.keys(activeUser).length !== 0 && (
           <LoadingSpinner classes={classes} />
         )}

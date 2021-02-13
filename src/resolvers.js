@@ -39,11 +39,26 @@ export const resolvers = {
       });
       return userItems;
     },
+    GetActiveUser: async (_parent, args, _context, _info) => {
+      const tokenExtractedId = 1;
+      const activeUser = await prisma.user.findUnique({
+        where: {
+          id: tokenExtractedId,
+        },
+        include: {
+          items: true,
+        },
+      });
+      return {
+        token: args.token,
+        user: activeUser,
+      };
+    },
   },
   //! MUTATIONS
   Mutation: {
     // user Auth
-    Login: async (_parents, args, context, info) => {
+    Login: async (_parents, args, _context, _info) => {
       try {
         const existingUser = await prisma.user.findUnique({
           where: {
@@ -74,19 +89,19 @@ export const resolvers = {
         };
       }
     },
-    Signup: async (_parent, args, context, info) => {
-      if(!args.password){
-        return {error: "all credentials are required"}
+    Signup: async (_parent, args, _context, _info) => {
+      if (!args.password) {
+        return { error: "all credentials are required" };
       }
       const hashedPass = await bcrypt.hash(args.password, 10);
       const alreadyUser = await prisma.user.findUnique({
         where: {
-          email: args.email
-        }
-      })
+          email: args.email,
+        },
+      });
       try {
-        if(alreadyUser){
-          return {error: "there is already an account with that email."}
+        if (alreadyUser) {
+          return { error: "there is already an account with that email." };
         }
         const user = await prisma.user.create({
           data: {
@@ -96,14 +111,13 @@ export const resolvers = {
           },
         });
         const token = jwt.sign({ userId: user.id }, process.env.APP_SECRET);
-        
+
         return {
           token,
           user,
         };
-
-      } catch(e) {
-        return {error: "Error creating Account."}
+      } catch (e) {
+        return { error: "Error creating Account." };
       }
     },
     CreateItem: async (_parent, args) => {
