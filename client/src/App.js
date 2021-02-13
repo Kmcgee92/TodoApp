@@ -54,7 +54,6 @@ const App = () => {
   );
   useEffect(() => {
     const activeToken = Cookies.get("token");
-    console.log(auth.activeUser);
     if (activeToken) {
       if (!Object.keys(auth.activeUser).length) {
         console.log("query is STILL RUNNING");
