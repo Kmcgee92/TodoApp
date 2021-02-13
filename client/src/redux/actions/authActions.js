@@ -31,7 +31,6 @@ export const logoutUser = (data) => {
 //login thunk
 export const loginHandler = (data) => {
   return async (dispatch) => {
-    console.log(data);
     Cookies.set("token", data.Login.token);
     dispatch(loginUser(data));
   };
@@ -43,48 +42,11 @@ export const logoutHandler = () => {
     dispatch(logoutUser());
   };
 };
-//restore user thunk
-// export const generateSession = () => async (dispatch) => {
-//   // const access = Cookies.get("access_token_cookie");
-//   const res = await fetch("/api/users/token/refresh", {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//   });
 
-//   if (res.ok) {
-//     const data = await res.json();
-//     dispatch(setUser(data));
-//   }
-//   return res;
-// };
+export const signupHandler = (data) => async (dispatch) => {
+  Cookies.set("token", data.Signup.token)
+  data.Login = data.Signup
+  dispatch(loginUser(data))
 
-//logout thunk
-// export const logout = () => async (dispatch) => {
-//   const res = await fetch("/api/users/token/remove", {
-//     method: "post",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//   });
-//   if (res.ok) {
-//     dispatch(removeUser());
-//   }
-//   return res;
-// };
-
-// export const signup = (name, email, password) => async (dispatch) => {
-//   const response = await fetch("/api/users/signup", {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     body: JSON.stringify({ name, email, password }),
-//   });
-//   if (response.ok) {
-//     const user = await response.json();
-//     dispatch(createUser(user));
-//   }
-// };
+};
 

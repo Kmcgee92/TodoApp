@@ -1,22 +1,150 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+// redux
+import { useDispatch } from "react-redux";
+import { signupHandler } from "../../redux/actions/authActions";
+// apollo
+import { useMutation } from "@apollo/react-hooks";
+// import { GET_USER } from "../../graphql/queries/GetUser";
+import { GET_USER_BY_SIGNUP } from "../../graphql/mutations/signup";
 // animxyz animation
 import "@animxyz/core";
 // mui components
-import Input from "@material-ui/core/Input";
 import TextField from "@material-ui/core/TextField";
-import InputAdornment from "@material-ui/core/InputAdornment";
-
+import Button from "@material-ui/core/Button";
+import LinearProgress from "@material-ui/core/LinearProgress";
 // mui icons
-import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
-import MailOutlineIcon from "@material-ui/icons/MailOutline";
+import PersonOutlineIcon from "@material-ui/icons/PersonOutline";
 import HttpsOutlinedIcon from "@material-ui/icons/HttpsOutlined";
 import VisibilityOffOutlinedIcon from "@material-ui/icons/VisibilityOffOutlined";
 import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
+// concat classes
+import clsx from "clsx";
+
 
 
 const Signup = ({ classes, setModalOpen }) => {
+  const dispatch = useDispatch();
   const [passVisibility, setPassVisibility] = useState(false);
   const [confirmPassVisibility, setConfirmPassVisibility] = useState(false);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [nameError, setNameError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
+  const [confirmPasswordError, setConfirmPasswordError] = useState(false);
+  const [creatingUserLoader, setCreatingUserLoader] = useState(false);
+  const [overThirty, setOverThirty] = useState(false);
+  const [serverError, setServerError] = useState("");
+
+  let [getUserBySignup, { data, loading, error }] = useMutation(
+    GET_USER_BY_SIGNUP
+  );
+
+  let timeoutName;
+  let timeoutConfirmPassword;
+
+  useEffect(() => {
+    setServerError("");
+    if (!error && data && !loading) {
+      if (data.Signup.error) {
+        setServerError(data.Signup.error);
+        return
+      }
+      dispatch(signupHandler(data))
+      setModalOpen(false)
+    }
+  }, [dispatch, error, data, loading]);
+  // Loading bar
+  useEffect(() => {
+    if (loading) {
+      setCreatingUserLoader(true);
+    }
+    setTimeout(() => setCreatingUserLoader(false), 2800);
+    return () => clearTimeout(timeoutName);
+  }, [loading, creatingUserLoader, timeoutName]);
+
+  // over 30 error
+  useEffect(() => {
+    setOverThirty(false);
+    if (name.length > 30) {
+      setOverThirty(true);
+    }
+  }, [name, overThirty]);
+
+  // password and confirm requirements
+  useEffect(() => {
+    if (password.length >= 8) {
+      setPasswordError(false);
+    }
+    setConfirmPasswordError(false);
+    if (password !== confirmPassword && confirmPassword) {
+      timeoutConfirmPassword = setTimeout(
+        () => setConfirmPasswordError(true),
+        1000
+      );
+    }
+    return () => clearTimeout(timeoutConfirmPassword);
+  }, [password, confirmPassword, setPasswordError]);
+
+  const handleSignup = async (e) => {
+    e.preventDefault();
+    setNameError(false);
+    setPasswordError(false);
+    setConfirmPasswordError(false);
+    let nameCurrErr = false;
+    let passCurrErr = false;
+    let confirmPassCurrErr = false;
+
+    if (password.length < 8) {
+      passCurrErr = true;
+      setPasswordError(true);
+    }
+    if (confirmPasswordError) {
+      confirmPassCurrErr = true;
+    }
+
+    const regex = /^[a-z ]{3,30}$/i;
+    if (!regex.test(name)) {
+      nameCurrErr = true;
+      // timeoutName = setTimeout(() => setNameError(true), 100);
+      setNameError(true);
+    }
+
+    if (!nameCurrErr && !passCurrErr && !confirmPassCurrErr) {
+      console.log("inside mutation if block");
+      setCreatingUserLoader(true);
+      getUserBySignup({
+        variables: {
+          name: name,
+          email: email,
+          password: password,
+        },
+      });
+    }
+
+    setCreatingUserLoader(false);
+  };
+
+  const nameHelperText = () => {
+    const handleOverThirty = clsx({
+      [classes.nameLength]: !overThirty,
+      [classes.nameLengthError]: overThirty,
+    });
+    if (nameError) {
+      return (
+        <>
+          <span className={handleOverThirty}>{name.length} of 30</span>
+          <span>
+            must be between 3 and 30 characters and must not contain special
+            characters `!@#$%&*` or numbers.
+          </span>
+        </>
+      );
+    } else {
+      return <span className={handleOverThirty}>{name.length} of 30</span>;
+    }
+  };
   return (
     <>
       {true && (
@@ -26,35 +154,68 @@ const Signup = ({ classes, setModalOpen }) => {
               <header className={classes.signupHeader}>
                 <h2>Create an Account</h2>
               </header>
-              <form className={classes.signupForm}>
+              <span style={{ padding: "0 20px", color: "black" }}>
+                * indicates required fields
+              </span>
+              {serverError ? (
+                <div 
+                className={classes.serverErrorStyles}
+                >
+                  <span className={classes.serverErrorStyles}>{serverError}</span>
+                </div>
+              ) : null}
+              <form onSubmit={handleSignup} className={classes.signupForm}>
                 <TextField
+                  required
+                  onChange={(e) => setName(e.target.value)}
+                  error={nameError}
+                  helperText={nameHelperText()}
                   label="Name"
                   type="name"
-                  autoComplete="current-password"
+                  autoComplete="name"
                   variant="outlined"
                   className={classes.signupInput}
                   InputProps={{
+                    className: classes.signupInputChildren,
                     endAdornment: <PersonOutlineIcon />,
                   }}
                   autoFocus={true}
                 />
                 <TextField
+                  required
+                  onChange={(e) => setEmail(e.target.value)}
                   label="Email"
                   type="email"
+                  autoComplete="email"
                   variant="outlined"
                   className={classes.signupInput}
                   InputProps={{
+                    className: classes.signupInputChildren,
                     endAdornment: <HttpsOutlinedIcon />,
                   }}
                 />
                 <TextField
+                  type="username"
+                  style={{ display: "none" }}
+                  autoComplete="username"
+                />
+                <TextField
+                  required
+                  onChange={(e) => setPassword(e.target.value)}
+                  error={passwordError}
+                  helperText={
+                    passwordError &&
+                    "password must be at least 8 characters long "
+                  }
                   color="secondary"
                   label="Password"
-                  type={!passVisibility && "password"}
+                  name="password"
+                  type={!passVisibility ? "password" : "reveal"}
                   variant="outlined"
-                  autoComplete="current-password"
+                  autoComplete="currentPassword"
                   className={classes.signupInput}
                   InputProps={{
+                    className: classes.signupInputChildren,
                     endAdornment: passVisibility ? (
                       <VisibilityOutlinedIcon
                         onClick={() => setPassVisibility(false)}
@@ -70,12 +231,20 @@ const Signup = ({ classes, setModalOpen }) => {
                   }}
                 />
                 <TextField
+                  required
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  error={confirmPasswordError}
+                  helperText={
+                    confirmPasswordError &&
+                    "confirmation does not match password field."
+                  }
                   label="Confirm Password"
-                  type={!confirmPassVisibility && "password"}
+                  type={!confirmPassVisibility ? "password" : "reveal"}
                   variant="outlined"
                   autoComplete="current-password"
                   className={classes.signupInput}
                   InputProps={{
+                    className: classes.signupInputChildren,
                     endAdornment: confirmPassVisibility ? (
                       <VisibilityOutlinedIcon
                         onClick={() => setConfirmPassVisibility(false)}
@@ -89,14 +258,31 @@ const Signup = ({ classes, setModalOpen }) => {
                     ),
                   }}
                 />
+                {!creatingUserLoader ? (
+                  <>
+                    <Button style={{ color: "white" }} type="submit">
+                      Create Account
+                    </Button>
+
+                    <Button
+                      className={classes.cancelButton}
+                      onClick={() => setModalOpen(false)}
+                    >
+                      Cancel
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <LinearProgress style={{ margin: "20px" }} />
+                    <Button
+                      className={classes.cancelButton}
+                      onClick={() => setModalOpen(false)}
+                    >
+                      Cancel
+                    </Button>
+                  </>
+                )}
               </form>
-              <footer className={classes.signupFooter}>
-                <div>
-                  <button onClick={() => setModalOpen(false)}>
-                    CLICK ME TO CLOSE
-                  </button>
-                </div>
-              </footer>
             </div>
           </div>
         </div>

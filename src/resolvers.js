@@ -4,7 +4,6 @@ const { PrismaClient } = pkg;
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
-
 const prisma = new PrismaClient();
 
 export const resolvers = {
@@ -75,34 +74,38 @@ export const resolvers = {
         };
       }
     },
-    // replace CreateUser with Signup
     Signup: async (_parent, args, context, info) => {
+      if(!args.password){
+        return {error: "all credentials are required"}
+      }
       const hashedPass = await bcrypt.hash(args.password, 10);
+      const alreadyUser = await prisma.user.findUnique({
+        where: {
+          email: args.email
+        }
+      })
+      try {
+        if(alreadyUser){
+          return {error: "there is already an account with that email."}
+        }
+        const user = await prisma.user.create({
+          data: {
+            name: args.name,
+            email: args.email,
+            password: hashedPass,
+          },
+        });
+        const token = jwt.sign({ userId: user.id }, process.env.APP_SECRET);
+        
+        return {
+          token,
+          user,
+        };
 
-      const user = await prisma.user.create({
-        data: {
-          name: args.name,
-          email: args.email,
-          password: hashedPass,
-        },
-      });
-      const token = jwt.sign({ userId: user.id }, process.env.APP_SECRET);
-
-      return {
-        token,
-        user,
-      };
+      } catch(e) {
+        return {error: "Error creating Account."}
+      }
     },
-    // CreateUser: async (_parent, args) => {
-    //   const newUser = await prisma.user.create({
-    //     data: {
-    //       name: args.name,
-    //       email: args.email,
-    //       password: args.password,
-    //     },
-    //   });
-    //   return newUser;
-    // },
     CreateItem: async (_parent, args) => {
       const newItem = await prisma.item.create({
         data: {
