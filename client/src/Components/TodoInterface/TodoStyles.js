@@ -154,6 +154,7 @@ export const TodoStyles = (theme, drawerWidth) => ({
     color: "white",
   },
   drawerItem: {
+    fontSize: "10px",
     overflow: "hidden",
   },
   crossout: {

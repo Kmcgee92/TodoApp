@@ -22,18 +22,17 @@ if (process.env.NODE_ENV !== "production") {
     window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
   storeEnhancer = composeEnhancers(applyMiddleware(thunk, logger));
 } else {
-  storeEnhancer = applyMiddleware(thunk);
+  // allow use of Redux Tree while deployed
+  const displayReduxLive =
+    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+  storeEnhancer = displayReduxLive(applyMiddleware(thunk));
 }
 
 const ReducerMerger = combineReducers({
   auth,
-  // profiles,
-  // history,
-  // watchlist,
 });
 
 const configureStore = (initialState) => {
-  // return createStore(ReducerMerger, initialState, storeEnhancer);
   return createStore(ReducerMerger, initialState, storeEnhancer);
 };
 

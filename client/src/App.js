@@ -52,11 +52,11 @@ const App = () => {
   const [getActiveUser, { data, loading, error }] = useLazyQuery(
     GET_ACTIVE_USER
   );
+  // OnMount will check to see if session needs to be refreshed
   useEffect(() => {
     const activeToken = Cookies.get("token");
     if (activeToken) {
       if (!Object.keys(auth.activeUser).length) {
-        console.log("query is STILL RUNNING");
         getActiveUser({
           variables: {
             token: activeToken,
@@ -73,7 +73,6 @@ const App = () => {
     }
   }, [data, loading, error]);
 
-
   if (error) {
     return <h1>Database isn't connected properly or there is an error.</h1>;
   }
@@ -87,7 +86,7 @@ const App = () => {
         <BrowserRouter>
           <Switch>
             <Route exact path="/">
-              <TodoInterface  />
+              <TodoInterface />
             </Route>
           </Switch>
         </BrowserRouter>

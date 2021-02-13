@@ -12,7 +12,7 @@ import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
 import classNames from "classnames";
 
 const Todo = ({ classes, data, active, setActive }) => {
-  // console.log(data);
+  console.log(data);
   const [abvTitle, setAbvTitle] = useState(null);
   useEffect(() => {
     if (data.title.length > 9) {
