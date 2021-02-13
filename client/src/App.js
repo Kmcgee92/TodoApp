@@ -1,12 +1,19 @@
 
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
+import Cookies from "js-cookie";
+// redux
+import { useDispatch, useSelector } from "react-redux";
+import { refreshSession } from "./redux/actions/authActions";
+// apollo
+import { useLazyQuery } from "@apollo/react-hooks";
+import { GET_ACTIVE_USER } from "./graphql/queries/getActiveUser";
 // core components
 import TodoInterface from "./Components/TodoInterface/TodoInterface"
 // styles
 import { MuiThemeProvider } from "@material-ui/core/styles";
 import { createMuiTheme } from "@material-ui/core/styles";
-import { orange, red } from "@material-ui/core/colors";
+import { red } from "@material-ui/core/colors";
 // custom input theme trial
 const theme = createMuiTheme({
   palette: {
@@ -39,11 +46,41 @@ const theme = createMuiTheme({
 
 
 const App = () => {
-  // const { data, loading, error } = useQuery(GET_ACTIVE_USER);
-  // if (error) return <h1>Database isn't connected properly</h1>;
-  // if (loading) return <h1>Loading...</h1>;
-  // console.log(data);;
+  const dispatch = useDispatch();
+  const auth = useSelector((state) => state.auth);
 
+  const [getActiveUser, { data, loading, error }] = useLazyQuery(
+    GET_ACTIVE_USER
+  );
+  useEffect(() => {
+    const activeToken = Cookies.get("token");
+    console.log(auth.activeUser);
+    if (activeToken) {
+      if (!Object.keys(auth.activeUser).length) {
+        console.log("query is STILL RUNNING");
+        getActiveUser({
+          variables: {
+            token: activeToken,
+          },
+          fetchPolicy: "network-only",
+        });
+      }
+    }
+  }, [auth.activeUser]);
+
+  useEffect(() => {
+    if (data) {
+      dispatch(refreshSession(data));
+    }
+  }, [data, loading, error]);
+
+
+  if (error) {
+    return <h1>Database isn't connected properly or there is an error.</h1>;
+  }
+  if (loading) {
+    return <h1>Loading...</h1>;
+  }
 
   return (
     <div>

@@ -39,11 +39,27 @@ export const resolvers = {
       });
       return userItems;
     },
+    GetActiveUser: async (_parent, args, _context, _info) => {
+      console.log("query ran")
+      const tokenExtractedId = 1
+      const activeUser = await prisma.user.findUnique({
+        where: {
+          id: tokenExtractedId,
+        },
+        include: {
+          items: true,
+        },
+      });
+      return {
+        token: args.token,
+        user: activeUser
+      }
+    }
   },
   //! MUTATIONS
   Mutation: {
     // user Auth
-    Login: async (_parents, args, context, info) => {
+    Login: async (_parents, args, _context, _info) => {
       try {
         const existingUser = await prisma.user.findUnique({
           where: {
@@ -74,7 +90,7 @@ export const resolvers = {
         };
       }
     },
-    Signup: async (_parent, args, context, info) => {
+    Signup: async (_parent, args, _context, _info) => {
       if(!args.password){
         return {error: "all credentials are required"}
       }

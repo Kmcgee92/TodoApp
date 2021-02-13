@@ -4,6 +4,7 @@ import Cookies from "js-cookie";
 export const SET_USER = "SET_USER";
 export const LOGIN_USER = "LOGIN_USER";
 export const LOGOUT_USER = "LOGOUT_USER";
+export const REFRESH_SESSION = "REFRESH_SESSION";
 
 //!ACTIONS
 export const setUser = (user) => {
@@ -26,6 +27,12 @@ export const logoutUser = (data) => {
   };
 };
 
+export const refreshSession = (data) => {
+  return {
+    type: REFRESH_SESSION,
+    data,
+  };
+};
 
 //! THUNKS
 //login thunk
@@ -49,4 +56,5 @@ export const signupHandler = (data) => async (dispatch) => {
   dispatch(loginUser(data))
 
 };
+
 

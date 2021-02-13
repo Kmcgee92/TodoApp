@@ -12,6 +12,7 @@ const typeDefs = `
     Users: [User!]!
     User(email: String!, password: String!): User
     UserItems(userId: ID!): [Item]
+    GetActiveUser(token: String!): AuthPayload
   }
   
   type Mutation {

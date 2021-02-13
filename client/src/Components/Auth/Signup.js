@@ -112,7 +112,6 @@ const Signup = ({ classes, setModalOpen }) => {
     }
 
     if (!nameCurrErr && !passCurrErr && !confirmPassCurrErr) {
-      console.log("inside mutation if block");
       setCreatingUserLoader(true);
       getUserBySignup({
         variables: {
