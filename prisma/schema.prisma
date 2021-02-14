@@ -1,29 +1,26 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+generator client {
+  provider = "prisma-client-js"
+}
 
-
-// prisma init schema.prisma old file
+/// 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-generator client {
-  provider = "prisma-client-js"
+model User {
+  id       Int     @id @default(autoincrement())
+  email    String  @unique
+  name     String?
+  password String
+  items    Item[]
 }
 
-model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  name      String?
-  password  String
-  items     Item[]
-}
 model Item {
-  id        Int      @id @default(autoincrement())
+  id        Int     @id @default(autoincrement())
   title     String
   content   String
+  userId    Int?
   completed Boolean
-  user    User?    @relation(fields: [userId], references: [id])
-  userId  Int?
+  user      User?   @relation(fields: [userId], references: [id])
 }
