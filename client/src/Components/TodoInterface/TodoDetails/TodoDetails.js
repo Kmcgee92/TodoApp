@@ -5,31 +5,32 @@ import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import InputBase from "@material-ui/core/InputBase";
 
-const TodoDetails = ({ data, active, classes }) => {
-  // console.log("inside the details component",data, active);
-  const [complete, setComplete] = useState(false);
-  const [activeTodo, setActiveTodo] = useState({ title: "title" });
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const [current] = useState(data.filter((item) => item.id === active));
-  // console.log(current);;
+const TodoDetails = ({ data, classes }) => {
+  console.log("what is the data", data);
 
+  const [complete, setComplete] = useState(data.completed || false);
+  const [title, setTitle] = useState(data.title || "");
+  const [content, setContent] = useState(data.content || "");
+  console.log(title)
+  console.log(content)
+  console.log(complete)
+  
   useEffect(() => {
-    setComplete(current.status);
-    setActiveTodo(current);
-    setTitle(current.title);
-  }, [current]);
+    setComplete(data.completed);
+    setTitle(data.title);
+    setContent(data.content);
+  }, [data]);
 
-  const handleOnChange = (e) => {
+  const handleTitleChange = (e) => {
     setTitle(e.target.value);
+    console.log(e.target.value)
+  };
+  const handleContentChange = (e) => {
+    setContent(e.target.value);
+    console.log(e.target.value)
   };
 
-  const handleSave = (e) => {
-    console.log("saved");
-  };
-  // if (!Object.keys(data.length)) {
-  //   return <div></div>;
-  // }
+
   return (
     <div>
       <header>
@@ -43,20 +44,29 @@ const TodoDetails = ({ data, active, classes }) => {
           </div>
         )}
         <Typography gutterBottom variant="h6">
-          {/* <input placeholder={activeTodo.title}></input> */}
           <InputBase
+          name="title"
+            autoFocus={true}
             className={classes.inputs}
-            onBlur={handleSave()}
-            onChange={(e) => handleOnChange(e)}
-            value={title}
+            onChange={(e) => handleTitleChange(e)}
+            value={title || ""}
             inputProps={{ "aria-label": "naked" }}
           />
         </Typography>
+        <Divider style={{ backgroundColor: "grey", marginBottom: "20px" }} />
+        <Typography gutterBottom variant="h6">
+          <InputBase
+            name="content"
+            className={classes.ContentEditable}
+            onChange={(e) => handleContentChange(e)}
+            value={content || ""}
+            inputProps={{ "aria-label": "naked" }}
+            />
+        </Typography>
       </header>
-      <Divider style={{ backgroundColor: "grey", marginBottom: "20px" }} />
-      <Typography paragraph>{activeTodo.content}</Typography>
     </div>
   );
 };;
 
 export default TodoDetails;
+

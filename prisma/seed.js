@@ -28,10 +28,12 @@ export default async function main() {
           {
             title: "Start Date",
             content: "fill out new hire paperwork",
+            completed: false,
           },
           {
             title: "Relocation",
             content: "Get with Craig about the assistance with relocation.",
+            completed: true,
           },
         ],
       },

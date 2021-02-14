@@ -5,6 +5,8 @@ import { useSelector } from "react-redux"
 // core components
 import Login from '../../Auth/Login'
 import Logout from '../../Auth/Logout'
+import Add from "../Todo/Add";
+import Delete from "../Todo/Delete";
 //mui components
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -15,7 +17,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import NoteAddIcon from "@material-ui/icons/NoteAdd";
 
 
-const Header = ({ classes, setDataLoading, setModalOpen, setActive }) => {
+const Header = ({ classes, setDataLoading, setModalOpen }) => {
   const auth = useSelector((state) => state.auth);
 
   return (
@@ -26,14 +28,18 @@ const Header = ({ classes, setDataLoading, setModalOpen, setActive }) => {
             <Typography className={classes.appName} noWrap>
               Todo List App
             </Typography>
-            <NoteAddIcon className={classes.icon} />
-            <Divider
-              flexItem={true}
-              orientation="vertical"
-              variant="middle"
-              className={classes.divider}
-            />
-            <DeleteIcon className={classes.icon} />
+            { auth.token && 
+            <>
+              <Add classes={classes}  />
+              <Divider
+                flexItem={true}
+                orientation="vertical"
+                variant="middle"
+                className={classes.divider}
+              />
+              <Delete classes={classes}  />
+            </>
+            }
           </div>
           <div className={classes.signinForm}>
             {Object.keys(auth.activeUser).length === 0 ? (
@@ -43,7 +49,7 @@ const Header = ({ classes, setDataLoading, setModalOpen, setActive }) => {
                 setModalOpen={setModalOpen}
               />
             ) : (
-              <Logout classes={classes} setActive={setActive} />
+              <Logout classes={classes} />
             )}
           </div>
         </Toolbar>

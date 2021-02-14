@@ -1,9 +1,8 @@
 import { createStore, applyMiddleware, combineReducers, compose } from "redux";
 import thunk from "redux-thunk";
 import { auth } from "../reducers/Auth.js";
-// import { profiles } from "../reducers/profile.js";
-// import { history } from "../reducers/history.js";
-// import { watchlist } from "../reducers/watchlist.js";
+import { todos } from "../reducers/Todos.js";
+import { active } from "../reducers/active.js";
 
 let storeEnhancer;
 
@@ -30,6 +29,8 @@ if (process.env.NODE_ENV !== "production") {
 
 const ReducerMerger = combineReducers({
   auth,
+  todos,
+  active,
 });
 
 const configureStore = (initialState) => {

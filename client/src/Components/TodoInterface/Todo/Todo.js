@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 // redux
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { setActive } from "../../../redux/actions/activeActions";
 //mui components
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
@@ -11,8 +12,9 @@ import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
 // nodejs library that concatenates classes
 import classNames from "classnames";
 
-const Todo = ({ classes, data, active, setActive }) => {
-  console.log(data);
+const Todo = ({ classes, data }) => {
+  const dispatch = useDispatch();
+  const activeTodo = useSelector((state) => state.active);
   const [abvTitle, setAbvTitle] = useState(null);
   useEffect(() => {
     if (data.title.length > 9) {
@@ -21,19 +23,21 @@ const Todo = ({ classes, data, active, setActive }) => {
       setAbvTitle(data.title);
     }
   }, [data]);
+  useEffect(()=> {
 
+  },[activeTodo])
   const handleActive = () => {
-    setActive(data.id);
+    dispatch(setActive(data.id));
   };
 
   const todoStyles = classNames({
-    [classes.active]: active === data.id,
+    [classes.active]: activeTodo === Number(data.id),
     [classes.drawerItem]: true,
   });
   return (
     <div onClick={() => handleActive()}>
       <ListItem id={data.id} className={todoStyles} button key={abvTitle}>
-        {data.status ? (
+        {data.completed ? (
           <>
             <CheckCircleOutlineIcon
               style={{ marginRight: "5px", color: "green" }}

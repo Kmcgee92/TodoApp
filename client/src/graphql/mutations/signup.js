@@ -13,6 +13,7 @@ export const GET_USER_BY_SIGNUP = gql`
           id
           title
           content
+          completed
         }
       }
     }

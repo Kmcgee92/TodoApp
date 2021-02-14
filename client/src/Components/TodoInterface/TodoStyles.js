@@ -154,7 +154,7 @@ export const TodoStyles = (theme, drawerWidth) => ({
     color: "white",
   },
   drawerItem: {
-    fontSize: "10px",
+    padding: " 10px 0px 10px 10px !important",
     overflow: "hidden",
   },
   crossout: {
@@ -193,5 +193,14 @@ export const TodoStyles = (theme, drawerWidth) => ({
     "&:hover": {
       backgroundColor: "rgba(255, 255, 255, .1)",
     },
+  },
+  noTasks: {
+    filter: "saturate(600%)",
+    display: "flex",
+    height: "50%",
+    flexDirection: "column",
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
 });

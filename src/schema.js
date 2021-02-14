@@ -23,8 +23,8 @@ const typeDefs = `
       password: String!)
       : AuthPayload,
     CreateItem(
-      title: String!,
-      content: String!,
+      title: String,
+      content: String,
       userId: ID!
     ): Item
     DeleteItem(itemId: ID!): Item

@@ -79,19 +79,14 @@ const Signup = ({ classes, setModalOpen }) => {
     }
     setConfirmPasswordError(false);
     if (password !== confirmPassword && confirmPassword) {
-      timeoutConfirmPassword = setTimeout(
-        () => setConfirmPasswordError(true),
-        1000
-      );
+      setConfirmPasswordError(true);
     }
-    return () => clearTimeout(timeoutConfirmPassword);
   }, [password, confirmPassword, setPasswordError]);
 
   const handleSignup = async (e) => {
     e.preventDefault();
     setNameError(false);
     setPasswordError(false);
-    setConfirmPasswordError(false);
     let nameCurrErr = false;
     let passCurrErr = false;
     let confirmPassCurrErr = false;
@@ -107,7 +102,6 @@ const Signup = ({ classes, setModalOpen }) => {
     const regex = /^[a-z ]{3,30}$/i;
     if (!regex.test(name)) {
       nameCurrErr = true;
-      // timeoutName = setTimeout(() => setNameError(true), 100);
       setNameError(true);
     }
 
@@ -157,10 +151,10 @@ const Signup = ({ classes, setModalOpen }) => {
                 * indicates required fields
               </span>
               {serverError ? (
-                <div 
-                className={classes.serverErrorStyles}
-                >
-                  <span className={classes.serverErrorStyles}>{serverError}</span>
+                <div className={classes.serverErrorStyles}>
+                  <span className={classes.serverErrorStyles}>
+                    {serverError}
+                  </span>
                 </div>
               ) : null}
               <form onSubmit={handleSignup} className={classes.signupForm}>
@@ -206,7 +200,7 @@ const Signup = ({ classes, setModalOpen }) => {
                     passwordError &&
                     "password must be at least 8 characters long "
                   }
-                  color="secondary"
+                  color="primary"
                   label="Password"
                   name="password"
                   type={!passVisibility ? "password" : "reveal"}
