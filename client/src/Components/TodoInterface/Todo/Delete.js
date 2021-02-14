@@ -23,11 +23,13 @@ const Delete = ({ classes }) => {
           itemId: active,
         },
       });
-      console.log(deletedItem);
       dispatch(removeFromList(deletedItem.data.DeleteItem.id));
       dispatch(setActive(""));
     }
   };
+  if (loading) {
+    return <div>loading...</div>;
+  }
 
   return (
     <div>

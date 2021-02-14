@@ -142,7 +142,38 @@ export const resolvers = {
         });
         return deletedItem;
       } catch (e) {
-        return "something went wrong on the server!";
+        return {error: "something went wrong on the server!"};
+      }
+    },
+    UpdateItem: async (_parent, args) => {
+      console.log(args)
+      try {
+        // find the item delete it and resave it
+        const currentItem = await prisma.item.delete({
+          where: {
+            id: Number(args.itemId) 
+          }
+        })
+        const {
+          id,
+          title,
+          content,
+          userId,
+          completed
+        } = currentItem
+
+        const newItem = await prisma.item.create({
+          data: {
+            id,
+            userId,
+            title: args.title || "",
+            content: args.content || "",
+            completed: args.completed || false
+          }
+        })
+        return newItem
+      } catch (e) {
+        return {error: "Please refresh your browser. There was an error with the server"};
       }
     },
   },

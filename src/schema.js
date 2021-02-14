@@ -28,7 +28,7 @@ const typeDefs = `
       userId: ID!
     ): Item
     DeleteItem(itemId: ID!): Item
-    UpdateItem(itemId: ID!): Item
+    UpdateItem(itemId: ID!, title: String, content: String, completed: Boolean): Item
   }
   type AuthPayload {
     error: String

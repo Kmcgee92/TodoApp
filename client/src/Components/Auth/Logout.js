@@ -3,6 +3,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {logoutHandler} from "../../redux/actions/authActions"
 import {setActive} from "../../redux/actions/activeActions"
+import { clearTodos } from "../../redux/actions/userTodoActions";
 
 
 //mui components
@@ -14,6 +15,7 @@ const Logout = ({ classes }) => {
   const handleLogout = () => {
 
     dispatch(setActive(""))
+    dispatch(clearTodos());
     dispatch(logoutHandler());
   };
   return (

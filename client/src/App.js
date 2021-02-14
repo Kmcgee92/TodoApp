@@ -37,7 +37,7 @@ const App = () => {
       }
     }
   });
-  
+
   useEffect(() => {
     if (data) {
       dispatch(refreshSession(data));
@@ -46,10 +46,10 @@ const App = () => {
 
   useEffect(() => {
     if (Object.keys(auth.activeUser).length) {
+
       dispatch(refreshList(auth.activeUser.items));
     }
-  }, [auth]);
-
+  }, [auth, data]);
 
   if (error) {
     return <h1>Database isn't connected properly or there is an error.</h1>;

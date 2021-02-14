@@ -140,7 +140,11 @@ export const TodoStyles = (theme, drawerWidth) => ({
     zIndex: theme.zIndex.drawer + 1,
     backgroundColor: "rgb(40,40,40, 1) !important",
   },
-  inputs: {
+  titleEditable: {
+    color: "white",
+    width: "100%",
+  },
+  contentEditable: {
     color: "white",
     width: "100%",
   },
@@ -202,5 +206,23 @@ export const TodoStyles = (theme, drawerWidth) => ({
     width: "100%",
     alignItems: "center",
     justifyContent: "space-between",
+  },
+  itemStatus: {
+    display: "flex",
+    justifyContent: "center",
+  },
+  complete: {
+    color: "lightgreen",
+    filter: "saturate(4)",
+    "&:hover": {
+      cursor: "pointer",
+    },
+  },
+  inComplete: {
+    color: "darkred",
+    filter: "saturate(10)",
+    "&:hover": {
+      cursor: "pointer",
+    },
   },
 });

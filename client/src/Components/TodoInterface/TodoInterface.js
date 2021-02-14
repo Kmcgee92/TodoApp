@@ -63,13 +63,7 @@ export default function TodoInterface() {
             {activeUser.items &&
               !dataLoading &&
               todoList.map((data, index) => {
-                return (
-                  <Todo
-                    key={index}
-                    data={data}
-                    classes={classes}
-                  />
-                );
+                return <Todo key={index} data={data} classes={classes} />;
               })}
           </List>
         </div>
@@ -93,13 +87,12 @@ export default function TodoInterface() {
           <Signup classes={classes} setModalOpen={setModalOpen} />
         )}
         {activeTodo && (
-          <TodoDetails
-            data={activeData}
-            classes={classes}
-          />
+          <TodoDetails activeData={activeData} classes={classes} />
           // <Test data={activeData} classes={classes}/>
         )}
-        {activeUser.items && !todoList.length && !dataLoading && <NoTasks classes={classes}/>}
+        {activeUser.items && !todoList.length && !dataLoading && (
+          <NoTasks classes={classes} />
+        )}
         {dataLoading && Object.keys(activeUser).length !== 0 && (
           <LoadingSpinner classes={classes} />
         )}
