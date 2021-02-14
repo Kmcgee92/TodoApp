@@ -26,13 +26,13 @@ export default async function main() {
       items: {
         create: [
           {
-            title: "Start Date",
-            content: "fill out new hire paperwork",
+            title: "Title",
+            content: "Content",
             completed: false,
           },
           {
-            title: "Relocation",
-            content: "Get with Craig about the assistance with relocation.",
+            title: "Second",
+            content: "Lorem Ipsum",
             completed: true,
           },
         ],
