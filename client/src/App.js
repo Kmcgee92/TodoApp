@@ -1,10 +1,11 @@
 
-import React, { useEffect } from "react";
+import React, { useReducer, useEffect } from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import Cookies from "js-cookie";
 // redux
 import { useDispatch, useSelector } from "react-redux";
 import { refreshSession } from "./redux/actions/authActions";
+import { refreshList } from "./redux/actions/userTodoActions";
 // apollo
 import { useLazyQuery } from "@apollo/react-hooks";
 import { GET_ACTIVE_USER } from "./graphql/queries/getActiveUser";
@@ -12,37 +13,7 @@ import { GET_ACTIVE_USER } from "./graphql/queries/getActiveUser";
 import TodoInterface from "./Components/TodoInterface/TodoInterface"
 // styles
 import { MuiThemeProvider } from "@material-ui/core/styles";
-import { createMuiTheme } from "@material-ui/core/styles";
-import { red } from "@material-ui/core/colors";
-// custom input theme trial
-const theme = createMuiTheme({
-  palette: {
-    primary: {
-      main: "#26a69a",
-
-      text: {
-        primary: "#0066ff",
-      },
-    },
-    secondary: {
-      main: "#26a69a",
-    },
-    error: {
-      main: red[900],
-    },
-    warning: {
-      main: "#0066ff",
-    },
-    // success: {
-    //   main: "",
-    // },
-  },
-  typography: {
-    fontSize: 16,
-    color: "red",
-  },
-});
-
+import theme from "./AppTheme";
 
 
 const App = () => {
@@ -52,11 +23,11 @@ const App = () => {
   const [getActiveUser, { data, loading, error }] = useLazyQuery(
     GET_ACTIVE_USER
   );
+  // OnMount will check to see if session needs to be refreshed
   useEffect(() => {
     const activeToken = Cookies.get("token");
     if (activeToken) {
       if (!Object.keys(auth.activeUser).length) {
-        console.log("query is STILL RUNNING");
         getActiveUser({
           variables: {
             token: activeToken,
@@ -65,7 +36,7 @@ const App = () => {
         });
       }
     }
-  }, [auth.activeUser]);
+  });
 
   useEffect(() => {
     if (data) {
@@ -73,6 +44,12 @@ const App = () => {
     }
   }, [data, loading, error]);
 
+  useEffect(() => {
+    if (Object.keys(auth.activeUser).length) {
+
+      dispatch(refreshList(auth.activeUser.items));
+    }
+  }, [auth, data]);
 
   if (error) {
     return <h1>Database isn't connected properly or there is an error.</h1>;
@@ -87,7 +64,7 @@ const App = () => {
         <BrowserRouter>
           <Switch>
             <Route exact path="/">
-              <TodoInterface  />
+              <TodoInterface />
             </Route>
           </Switch>
         </BrowserRouter>

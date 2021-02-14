@@ -10,7 +10,6 @@ export const resolvers = {
   //! QUERY
   Query: {
     User: async (_parent, args, context, info) => {
-      // return await prisma.user.findOne((user) => {
       const existingUser = await prisma.user.findUnique({
         where: {
           email: args.email,
@@ -40,10 +39,12 @@ export const resolvers = {
       return userItems;
     },
     GetActiveUser: async (_parent, args, _context, _info) => {
-      const tokenExtractedId = 1;
+      // extract user from token
+      const decoded = jwt.verify(args.token, process.env.APP_SECRET);
+      var userId = decoded.userId;
       const activeUser = await prisma.user.findUnique({
         where: {
-          id: tokenExtractedId,
+          id: userId,
         },
         include: {
           items: true,
@@ -121,14 +122,59 @@ export const resolvers = {
       }
     },
     CreateItem: async (_parent, args) => {
+      console.log(args);
       const newItem = await prisma.item.create({
         data: {
           title: args.title,
           content: args.content,
           userId: Number(args.userId),
+          completed: false,
         },
       });
       return newItem;
+    },
+    DeleteItem: async (_parent, args) => {
+      try {
+        const deletedItem = await prisma.item.delete({
+          where: {
+            id: Number(args.itemId),
+          },
+        });
+        return deletedItem;
+      } catch (e) {
+        return {error: "something went wrong on the server!"};
+      }
+    },
+    UpdateItem: async (_parent, args) => {
+      console.log(args)
+      try {
+        // find the item delete it and resave it
+        const currentItem = await prisma.item.delete({
+          where: {
+            id: Number(args.itemId) 
+          }
+        })
+        const {
+          id,
+          title,
+          content,
+          userId,
+          completed
+        } = currentItem
+
+        const newItem = await prisma.item.create({
+          data: {
+            id,
+            userId,
+            title: args.title || "",
+            content: args.content || "",
+            completed: args.completed || false
+          }
+        })
+        return newItem
+      } catch (e) {
+        return {error: "Please refresh your browser. There was an error with the server"};
+      }
     },
   },
 };

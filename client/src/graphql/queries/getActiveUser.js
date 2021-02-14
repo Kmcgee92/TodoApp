@@ -13,6 +13,7 @@ export const GET_ACTIVE_USER = gql`
           id
           title
           content
+          completed
         }
       }
     }

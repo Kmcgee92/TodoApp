@@ -140,7 +140,11 @@ export const TodoStyles = (theme, drawerWidth) => ({
     zIndex: theme.zIndex.drawer + 1,
     backgroundColor: "rgb(40,40,40, 1) !important",
   },
-  inputs: {
+  titleEditable: {
+    color: "white",
+    width: "100%",
+  },
+  contentEditable: {
     color: "white",
     width: "100%",
   },
@@ -154,6 +158,7 @@ export const TodoStyles = (theme, drawerWidth) => ({
     color: "white",
   },
   drawerItem: {
+    padding: " 10px 0px 10px 10px !important",
     overflow: "hidden",
   },
   crossout: {
@@ -191,6 +196,33 @@ export const TodoStyles = (theme, drawerWidth) => ({
     backgroundColor: "rgba(255, 255, 255, .1)",
     "&:hover": {
       backgroundColor: "rgba(255, 255, 255, .1)",
+    },
+  },
+  noTasks: {
+    filter: "saturate(600%)",
+    display: "flex",
+    height: "50%",
+    flexDirection: "column",
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  itemStatus: {
+    display: "flex",
+    justifyContent: "center",
+  },
+  complete: {
+    color: "lightgreen",
+    filter: "saturate(4)",
+    "&:hover": {
+      cursor: "pointer",
+    },
+  },
+  inComplete: {
+    color: "darkred",
+    filter: "saturate(10)",
+    "&:hover": {
+      cursor: "pointer",
     },
   },
 });

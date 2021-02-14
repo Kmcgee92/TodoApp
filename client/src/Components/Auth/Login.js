@@ -73,7 +73,6 @@ const Login = ({ classes, setDataLoading, setModalOpen }) => {
     if (!emailCurrentError && !passwordCurrentError) {
       setDataLoading(true);
       getUserByLogin({
-        // fetchPolicy: "network-only",
         variables: {
           email: email,
           password: password,
