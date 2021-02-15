@@ -24,11 +24,10 @@ import {TodoStyles} from './TodoStyles.js'
 const useStyles = makeStyles((theme) => (TodoStyles(theme, "150px")));
 
 export default function TodoInterface() {
+  const classes = useStyles();
   const activeUser = useSelector((state) => state.auth.activeUser);
   const todoList = useSelector((state)=>state.todos)
-  const activeTodo = useSelector(state => state.active)
-  console.log(activeTodo)
-  const classes = useStyles();
+  const activeTodo = useSelector((state) => state.active);
   const [dataLoading, setDataLoading] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [activeData, setActiveData] = useState({})

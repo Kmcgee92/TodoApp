@@ -41,7 +41,6 @@ const Signup = ({ classes, setModalOpen }) => {
     GET_USER_BY_SIGNUP
   );
 
-  let timeoutName;
   let timeoutConfirmPassword;
 
   useEffect(() => {
@@ -49,20 +48,21 @@ const Signup = ({ classes, setModalOpen }) => {
     if (!error && data && !loading) {
       if (data.Signup.error) {
         setServerError(data.Signup.error);
-        return
+        return;
       }
-      dispatch(signupHandler(data))
-      setModalOpen(false)
+      dispatch(signupHandler(data));
+      setModalOpen(false);
     }
   }, [dispatch, error, data, loading]);
   // Loading bar
   useEffect(() => {
+
     if (loading) {
       setCreatingUserLoader(true);
     }
-    setTimeout(() => setCreatingUserLoader(false), 2800);
+    let timeoutName = setTimeout(() => setCreatingUserLoader(false), 2800);
     return () => clearTimeout(timeoutName);
-  }, [loading, creatingUserLoader, timeoutName]);
+  }, [loading, creatingUserLoader, setCreatingUserLoader]);
 
   // over 30 error
   useEffect(() => {
@@ -107,7 +107,7 @@ const Signup = ({ classes, setModalOpen }) => {
 
     if (!nameCurrErr && !passCurrErr && !confirmPassCurrErr) {
       setCreatingUserLoader(true);
-      getUserBySignup({
+      await getUserBySignup({
         variables: {
           name: name,
           email: email,
@@ -138,6 +138,7 @@ const Signup = ({ classes, setModalOpen }) => {
       return <span className={handleOverThirty}>{name.length} of 30</span>;
     }
   };
+
   return (
     <>
       {true && (

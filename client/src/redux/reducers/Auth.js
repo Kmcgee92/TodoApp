@@ -19,6 +19,10 @@ export const auth = (state = { error: false, activeUser: {} }, action) => {
       nextState = { error: false, activeUser: {} };
       return nextState;
     case REFRESH_SESSION:
+      if (!action.data.GetActiveUser.token) {
+        nextState = { error: false, activeUser: {} };
+        return nextState;
+      }
       nextState = {
         error: action.data.GetActiveUser.error,
         token: action.data.GetActiveUser.token,
