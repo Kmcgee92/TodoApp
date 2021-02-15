@@ -14,33 +14,33 @@ import { makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import Toolbar from "@material-ui/core/Toolbar";
 import List from "@material-ui/core/List";
-import Typography from "@material-ui/core/Typography";
-import Divider from "@material-ui/core/Divider";
-import InputBase from "@material-ui/core/InputBase";
 
 // MUI styles
 import {TodoStyles} from './TodoStyles.js'
 
-const useStyles = makeStyles((theme) => (TodoStyles(theme, "150px")));
 
-export default function TodoInterface() {
+export default function TodoInterface({ theme }) {
+  console.log(theme);
+  const interactiveDrawer = "80px";
+  const useStyles = makeStyles((styles) =>
+    TodoStyles(styles, "180px", interactiveDrawer)
+  );
   const classes = useStyles();
   const activeUser = useSelector((state) => state.auth.activeUser);
-  const todoList = useSelector((state)=>state.todos)
+  const todoList = useSelector((state) => state.todos);
   const activeTodo = useSelector((state) => state.active);
   const [dataLoading, setDataLoading] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
-  const [activeData, setActiveData] = useState({})
+  const [activeData, setActiveData] = useState({});
 
   useEffect(() => {
-    if(activeTodo) {
-      const [filtered] = todoList.filter((object)=> {
-        return Number(object.id) === activeTodo
-      })
-      setActiveData(filtered)
+    if (activeTodo) {
+      const [filtered] = todoList.filter((object) => {
+        return Number(object.id) === activeTodo;
+      });
+      setActiveData(filtered);
     }
-  }, [activeTodo]);
-
+  }, [todoList, activeTodo]);
 
   return (
     <div className={classes.root}>
@@ -70,14 +70,15 @@ export default function TodoInterface() {
       <main className={classes.content}>
         <Toolbar />
         {!Object.keys(activeUser).length && !modalOpen ? (
-          <div className={classes.signupContent}>
-            <span>
-              need to create an account?{" "}
+          <div>
+            <span className={classes.signupContent}>
+              need to create an account?&nbsp;&nbsp;
+              <span></span>
               <span
-                className={classes.signupToggle}
+                className={classes.signupToggleParent}
                 onClick={() => setModalOpen(true)}
               >
-                Signup
+                <span className={classes.signupToggle}>Signup</span>
               </span>
             </span>
           </div>

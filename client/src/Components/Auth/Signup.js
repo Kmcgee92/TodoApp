@@ -41,8 +41,6 @@ const Signup = ({ classes, setModalOpen }) => {
     GET_USER_BY_SIGNUP
   );
 
-  let timeoutConfirmPassword;
-
   useEffect(() => {
     setServerError("");
     if (!error && data && !loading) {
@@ -53,10 +51,9 @@ const Signup = ({ classes, setModalOpen }) => {
       dispatch(signupHandler(data));
       setModalOpen(false);
     }
-  }, [dispatch, error, data, loading]);
+  }, [setModalOpen, dispatch, error, data, loading]);
   // Loading bar
   useEffect(() => {
-
     if (loading) {
       setCreatingUserLoader(true);
     }

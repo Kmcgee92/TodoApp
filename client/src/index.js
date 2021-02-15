@@ -3,13 +3,7 @@ import ReactDOM from 'react-dom';
 
 //Apollo / GQL
 import ApolloClient from "apollo-boost";
-import {
-  ApolloProvider,
-  InMemoryCache,
-  HttpLink,
-  from,
-} from "@apollo/react-hooks";
-import { onError } from "@apollo/client/link/error";
+import { ApolloProvider } from "@apollo/react-hooks";
 
 //redux
 import ReduxStore from "./redux/store/ReduxStore";
@@ -24,9 +18,7 @@ import App from "./App";
 
 
 
-const client = new ApolloClient({
-  cache: new InMemoryCache(),
-});
+const client = new ApolloClient({});
 const store = ReduxStore();
 
 ReactDOM.render(
@@ -40,7 +32,3 @@ ReactDOM.render(
   document.getElementById('root')
 );
 
-// // If you want to start measuring performance in your app, pass a function
-// // to log results (for example: reportWebVitals(console.log))
-// // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-// reportWebVitals(console.log);

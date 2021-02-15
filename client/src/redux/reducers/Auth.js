@@ -1,5 +1,4 @@
 import {
-  SET_USER,
   LOGIN_USER,
   LOGOUT_USER,
   REFRESH_SESSION,

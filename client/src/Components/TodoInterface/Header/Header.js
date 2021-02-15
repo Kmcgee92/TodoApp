@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 //redux
 import { useSelector } from "react-redux"
 
@@ -12,9 +12,6 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
-//mui icons
-import DeleteIcon from "@material-ui/icons/Delete";
-import NoteAddIcon from "@material-ui/icons/NoteAdd";
 
 
 const Header = ({ classes, setDataLoading, setModalOpen }) => {

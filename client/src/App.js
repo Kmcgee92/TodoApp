@@ -1,5 +1,5 @@
 
-import React, { useReducer, useEffect } from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import Cookies from "js-cookie";
 // redux
@@ -36,22 +36,21 @@ const App = () => {
         });
       }
     }
-  }, [auth.activeUser]);
+  }, [getActiveUser, auth.activeUser]);
 
   useEffect(() => {
     if (data) {
-      if  (!data.error)  {
+      if (!data.error) {
         dispatch(refreshSession(data));
       }
     }
-  }, [data, loading, error]);
+  }, [dispatch, data, loading, error]);
 
   useEffect(() => {
     if (Object.keys(auth.activeUser).length) {
-
       dispatch(refreshList(auth.activeUser.items));
     }
-  }, [auth, data]);
+  }, [dispatch, auth, data]);
 
   if (error) {
     return <h1>Database isn't connected properly or there is an error.</h1>;

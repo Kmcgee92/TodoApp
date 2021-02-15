@@ -17,7 +17,7 @@ export default async function main() {
     return protectedPassword;
   }
   const hashedPassword = await hashPassword();
-  console.log("inside seed file!!!!");
+  console.log("seed file executing.");
   await prisma.user.create({
     data: {
       name: "Demo",

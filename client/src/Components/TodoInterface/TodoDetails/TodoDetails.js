@@ -14,17 +14,15 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 
 const TodoDetails = ({ activeData, classes }) => {
-  const dispatch = useDispatch()
-  const activeTodo = useSelector((state) => state.active);
+  const dispatch = useDispatch();
   const userId = useSelector((state) => state.auth.activeUser.id);
   const [complete, setComplete] = useState(activeData.completed || false);
   const [title, setTitle] = useState(activeData.title || "");
   const [content, setContent] = useState(activeData.content || "");
 
-    let [saveData, { data, loading, error }] = useMutation(
-      UPDATE_ITEM
-    );
-  
+  // eslint-disable-next-line
+  let [saveData, { _data, _loading, _error }] = useMutation(UPDATE_ITEM);
+
   useEffect(() => {
     setComplete(activeData.completed);
     setTitle(activeData.title);
@@ -64,8 +62,7 @@ const TodoDetails = ({ activeData, classes }) => {
   };
 
   return (
-    <div>
-      <header>
+    <div className={classes.detailContent}>
         <header className={classes.itemStatus}>
           {complete ? (
             <Button onClick={(e) => handleSave(e)} className={classes.complete}>
@@ -86,7 +83,7 @@ const TodoDetails = ({ activeData, classes }) => {
             autoComplete="off"
             autoFocus={true}
             className={classes.titleEditable}
-            onChange={(e) =>    handleSetTitle(e)}
+            onChange={(e) => handleSetTitle(e)}
             onBlur={(e) => handleSave(e)}
             value={title || ""}
             inputProps={{ "aria-label": "naked" }}
@@ -110,7 +107,6 @@ const TodoDetails = ({ activeData, classes }) => {
             inputProps={{ "aria-label": "naked" }}
           />
         </Typography>
-      </header>
     </div>
   );
 };;
