@@ -1,6 +1,6 @@
 import React from "react";
 // redux
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {logoutHandler} from "../../redux/actions/authActions"
 import {setActive} from "../../redux/actions/activeActions"
 import { clearTodos } from "../../redux/actions/userTodoActions";
@@ -13,8 +13,7 @@ const Logout = ({ classes }) => {
   const dispatch = useDispatch();
 
   const handleLogout = () => {
-
-    dispatch(setActive(""))
+    dispatch(setActive(""));
     dispatch(clearTodos());
     dispatch(logoutHandler());
   };

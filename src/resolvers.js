@@ -87,8 +87,6 @@ export const resolvers = {
           },
         });
         const { password } = existingUser;
-        console.log(existingUser, password);
-
         // check hashed password to password in args
         if (!(await bcrypt.compare(args.password, password))) {
           return { error: "Invalid Credentials" };
@@ -99,6 +97,7 @@ export const resolvers = {
           { userId: existingUser.id },
           process.env.APP_SECRET
         );
+
         // return responses accordingly
         return { token, user: existingUser };
       } catch (e) {
@@ -142,7 +141,6 @@ export const resolvers = {
       }
     },
     CreateItem: async (_parent, args) => {
-      console.log(args);
       const newItem = await prisma.item.create({
         data: {
           title: args.title,
@@ -174,7 +172,6 @@ export const resolvers = {
       }
     },
     UpdateItem: async (_parent, args) => {
-      console.log(args);
       try {
         // find the item delete it and resave it
         const currentItem = await prisma.item.delete({

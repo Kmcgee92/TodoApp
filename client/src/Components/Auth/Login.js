@@ -85,52 +85,50 @@ const Login = ({ classes, setDataLoading, setModalOpen }) => {
   return (
     <div className={classes.signinForm}>
       <form>
-
-          {auth.error && (
-            <FormHelperText className={classes.serverError}>
-              {`${auth.error}`}
-            </FormHelperText>
-          )}
-          {(emailError || passwordError) && (
-            <FormHelperText style={{ color: "red" }}>
-              please fill out all fields.
-            </FormHelperText>
-          )}
-          {noUserFound && (
-            <FormHelperText style={{ color: "red" }}>
-              500: Seems to be an issue with the server
-            </FormHelperText>
-          )}
-          <FormControl>
-            <Input
-              required
-              value={email}
-              className={classes.authInputs}
-              placeholder="email"
-              autoComplete="email"
-              autoFocus={true}
-              error={emailError}
-              onChange={(e) => setEmail(e.target.value)}
-              onClick={()=> setModalOpen(false)}
-              />
-          </FormControl>
-          <FormControl>
-            <Input
-              required
-              value={password}
-              type="password"
-              className={classes.authInputs}
-              placeholder="password"
-              autoComplete="current-password"
-              error={passwordError}
-              onChange={(e) => setPassword(e.target.value)}
-              onClick={()=> setModalOpen(false)}
-            />
-          </FormControl>
-          <Button onClick={handleLogin} className={classes.icon}>
-            Login
-          </Button>
-
+        {auth.error && (
+          <FormHelperText className={classes.serverError}>
+            {`${auth.error}`}
+          </FormHelperText>
+        )}
+        {(emailError || passwordError) && (
+          <FormHelperText style={{ color: "red" }}>
+            please fill out all fields.
+          </FormHelperText>
+        )}
+        {noUserFound && (
+          <FormHelperText style={{ color: "red" }}>
+            500: Seems to be an issue with the server
+          </FormHelperText>
+        )}
+        <FormControl>
+          <Input
+            required
+            value={email}
+            className={classes.authInputs}
+            placeholder="email"
+            autoComplete="email"
+            autoFocus={true}
+            error={emailError}
+            onChange={(e) => setEmail(e.target.value)}
+            onClick={() => setModalOpen(false)}
+          />
+        </FormControl>
+        <FormControl>
+          <Input
+            required
+            value={password}
+            type="password"
+            className={classes.authInputs}
+            placeholder="password"
+            autoComplete="current-password"
+            error={passwordError}
+            onChange={(e) => setPassword(e.target.value)}
+            onClick={() => setModalOpen(false)}
+          />
+        </FormControl>
+        <Button onClick={handleLogin} className={classes.icon}>
+          Login
+        </Button>
       </form>
     </div>
   );

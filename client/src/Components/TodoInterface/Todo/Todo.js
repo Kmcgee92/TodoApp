@@ -40,14 +40,14 @@ const Todo = ({ classes, data }) => {
         {data.completed ? (
           <>
             <CheckCircleOutlineIcon
-              style={{ marginRight: "5px", color: "green" }}
+              className={classes.circleOutlineIcon}
             />
-            <ListItemText className={classes.crossout} primary={abvTitle} />
+            <div className={classes.crossout}>{abvTitle}</div>
           </>
         ) : (
           <>
-            <AssignmentIcon style={{ marginRight: "5px" }} />
-            <ListItemText primary={abvTitle} />
+            <AssignmentIcon className={classes.assignmentIcon} />
+            <div className={classes.itemText}>{abvTitle}</div>
           </>
         )}
       </ListItem>
