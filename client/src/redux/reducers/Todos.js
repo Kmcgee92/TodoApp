@@ -8,7 +8,7 @@ import {
 
 export const todos = (state = [], action) => {
 
-  let nextState = [...state];
+  let nextState = state;
   switch (action.type) {
     case REFRESH_LIST:
       nextState = action.data;

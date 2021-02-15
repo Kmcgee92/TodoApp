@@ -36,11 +36,13 @@ const App = () => {
         });
       }
     }
-  });
+  }, [auth.activeUser]);
 
   useEffect(() => {
     if (data) {
-      dispatch(refreshSession(data));
+      if  (!data.error)  {
+        dispatch(refreshSession(data));
+      }
     }
   }, [data, loading, error]);
 

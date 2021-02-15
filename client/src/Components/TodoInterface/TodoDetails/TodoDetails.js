@@ -32,13 +32,11 @@ const TodoDetails = ({ activeData, classes }) => {
   }, [activeData]);
 
   const handleSave = async (e) => {
-    console.log(e.target.innerHTML)
-    let completeFlag = complete
-    const target = e.target.innerHTML
-    if(target === "Incomplete" || target === "Complete") {
-      setComplete(!complete)
-      completeFlag = !complete
-
+    let completeFlag = complete;
+    const target = e.target.innerHTML;
+    if (target === "Incomplete" || target === "Complete") {
+      setComplete(!complete);
+      completeFlag = !complete;
     }
     await saveData({
       variables: {
@@ -55,8 +53,14 @@ const TodoDetails = ({ activeData, classes }) => {
       id: activeData.id,
       userId: userId,
       __typename: "Item",
-    }
-    dispatch(updateTodos(newTodo))
+    };
+    dispatch(updateTodos(newTodo));
+  };
+
+  const handleSetTitle = (e) => {
+    if (e.target.value.length < 80) {
+      setTitle(e.target.value);
+    } else return null;
   };
 
   return (
@@ -64,15 +68,14 @@ const TodoDetails = ({ activeData, classes }) => {
       <header>
         <header className={classes.itemStatus}>
           {complete ? (
-            <Button 
-            onClick={(e)=>handleSave(e)}
-            className={classes.complete}>
+            <Button onClick={(e) => handleSave(e)} className={classes.complete}>
               Complete
             </Button>
           ) : (
-            <Button 
-            onClick={(e)=>handleSave(e)}
-            className={classes.inComplete}>
+            <Button
+              onClick={(e) => handleSave(e)}
+              className={classes.inComplete}
+            >
               Incomplete
             </Button>
           )}
@@ -83,7 +86,7 @@ const TodoDetails = ({ activeData, classes }) => {
             autoComplete="off"
             autoFocus={true}
             className={classes.titleEditable}
-            onChange={(e) => setTitle(e.target.value)}
+            onChange={(e) =>    handleSetTitle(e)}
             onBlur={(e) => handleSave(e)}
             value={title || ""}
             inputProps={{ "aria-label": "naked" }}
@@ -96,7 +99,7 @@ const TodoDetails = ({ activeData, classes }) => {
             rows={30}
             InputProps={{
               className: classes.contentEditable,
-              disableUnderline: true
+              disableUnderline: true,
             }}
             autoComplete="off"
             name="content"

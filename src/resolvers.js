@@ -40,20 +40,37 @@ export const resolvers = {
     },
     GetActiveUser: async (_parent, args, _context, _info) => {
       // extract user from token
-      const decoded = jwt.verify(args.token, process.env.APP_SECRET);
-      var userId = decoded.userId;
-      const activeUser = await prisma.user.findUnique({
-        where: {
-          id: userId,
-        },
-        include: {
-          items: true,
-        },
-      });
-      return {
-        token: args.token,
-        user: activeUser,
-      };
+      let userId;
+      let decoded;
+      if (args.token) {
+        decoded = await jwt.verify(args.token, process.env.APP_SECRET);
+      } else {
+        return {
+          errror: "no token or tokin is invalid",
+          token: null,
+          user: null,
+        };
+      }
+      if (decoded.userId) {
+        userId = decoded.userId;
+        const activeUser = await prisma.user.findUnique({
+          where: {
+            id: userId,
+          },
+          include: {
+            items: true,
+          },
+        });
+        return {
+          token: args.token,
+          user: activeUser,
+        };
+      } else {
+        return {
+          token: null,
+          user: null,
+        };
+      }
     },
   },
   //! MUTATIONS
@@ -70,6 +87,7 @@ export const resolvers = {
           },
         });
         const { password } = existingUser;
+        console.log(existingUser, password);
 
         // check hashed password to password in args
         if (!(await bcrypt.compare(args.password, password))) {
@@ -110,9 +128,11 @@ export const resolvers = {
             email: args.email,
             password: hashedPass,
           },
+          include: {
+            items: true,
+          },
         });
         const token = jwt.sign({ userId: user.id }, process.env.APP_SECRET);
-
         return {
           token,
           user,
@@ -134,7 +154,15 @@ export const resolvers = {
       return newItem;
     },
     DeleteItem: async (_parent, args) => {
+      const itemExists = await prisma.item.findUnique({
+        where: {
+          id: Number(args.itemId),
+        },
+      });
       try {
+        if (!itemExists) {
+          return { error: "something went wrong on the server!" };
+        }
         const deletedItem = await prisma.item.delete({
           where: {
             id: Number(args.itemId),
@@ -142,25 +170,19 @@ export const resolvers = {
         });
         return deletedItem;
       } catch (e) {
-        return {error: "something went wrong on the server!"};
+        return { error: "something went wrong on the server!" };
       }
     },
     UpdateItem: async (_parent, args) => {
-      console.log(args)
+      console.log(args);
       try {
         // find the item delete it and resave it
         const currentItem = await prisma.item.delete({
           where: {
-            id: Number(args.itemId) 
-          }
-        })
-        const {
-          id,
-          title,
-          content,
-          userId,
-          completed
-        } = currentItem
+            id: Number(args.itemId),
+          },
+        });
+        const { id, title, content, userId, completed } = currentItem;
 
         const newItem = await prisma.item.create({
           data: {
@@ -168,12 +190,15 @@ export const resolvers = {
             userId,
             title: args.title || "",
             content: args.content || "",
-            completed: args.completed || false
-          }
-        })
-        return newItem
+            completed: args.completed || false,
+          },
+        });
+        return newItem;
       } catch (e) {
-        return {error: "Please refresh your browser. There was an error with the server"};
+        return {
+          error:
+            "Please refresh your browser. There was an error with the server",
+        };
       }
     },
   },
