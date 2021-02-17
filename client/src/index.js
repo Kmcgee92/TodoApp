@@ -10,7 +10,9 @@ import ReduxStore from "./redux/store/ReduxStore";
 import { Provider } from "react-redux";
 
 // main styles
+import { MuiThemeProvider } from "@material-ui/core/styles";
 import './index.css';
+import theme from "./AppTheme";
 
 // main Component
 import App from "./App";
@@ -25,7 +27,9 @@ ReactDOM.render(
   <React.StrictMode>
     <ApolloProvider client={client}>
       <Provider store={store}>
-        <App />
+        <MuiThemeProvider theme={theme}>
+          <App />
+        </MuiThemeProvider>
       </Provider>
     </ApolloProvider>
   </React.StrictMode>,

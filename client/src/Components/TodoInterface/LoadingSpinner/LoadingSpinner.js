@@ -29,7 +29,7 @@ const LoadingSpinner = ({ classes }) => {
 
   return (
     <>
-      <div className={classes.wrapper}>
+      <div className={classes.spinner}>
         <Fab aria-label="save" className={buttonClassname}>
           {success ? <CheckIcon /> : <CachedIcon />}
         </Fab>
@@ -37,7 +37,7 @@ const LoadingSpinner = ({ classes }) => {
           <CircularProgress size={68} className={classes.fabProgress} />
         )}
       </div>
-      <div className={classes.wrapper}></div>
+      <div className={classes.spinner}></div>
     </>
   );
 };
