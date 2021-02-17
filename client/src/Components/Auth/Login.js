@@ -83,8 +83,8 @@ const Login = ({ classes, setDataLoading, setModalOpen }) => {
   };
 
   return (
-    <div className={classes.signinForm}>
-      <form>
+    <div>
+      <form className={classes.signinForm}>
         {auth.error && (
           <FormHelperText className={classes.serverError}>
             {`${auth.error}`}

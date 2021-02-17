@@ -6,32 +6,23 @@ import { useSelector } from "react-redux";
 import Header from './Header/Header'
 import Signup from "../Auth/Signup";
 import LoadingSpinner from "./LoadingSpinner/LoadingSpinner";
-import Todo from './Todo/Todo'
 import TodoDetails from "./TodoDetails/TodoDetails";
 import NoTasks from "./TodoDetails/NoTasks"
+import TodoList from "./TodoList/TodoList";
+import Greeter from "./Greeter/Greeter";
+import SaveStatus from "./SaveStatus/SaveStatus";
 //mui components
-import { makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import Toolbar from "@material-ui/core/Toolbar";
-import List from "@material-ui/core/List";
 
-// MUI styles
-import {TodoStyles} from './TodoStyles.js'
-
-
-export default function TodoInterface({ theme }) {
-  console.log(theme);
-  const interactiveDrawer = "80px";
-  const useStyles = makeStyles((styles) =>
-    TodoStyles(styles, "180px", interactiveDrawer)
-  );
-  const classes = useStyles();
+export function TodoInterface({ classes }) {
   const activeUser = useSelector((state) => state.auth.activeUser);
   const todoList = useSelector((state) => state.todos);
   const activeTodo = useSelector((state) => state.active);
   const [dataLoading, setDataLoading] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [activeData, setActiveData] = useState({});
+  const [saving, setSaving] = useState(true);
 
   useEffect(() => {
     if (activeTodo) {
@@ -43,13 +34,15 @@ export default function TodoInterface({ theme }) {
   }, [todoList, activeTodo]);
 
   return (
-    <div className={classes.root}>
+    <div data-test="Root" className={classes.root}>
       <Header
+        data-test="Header"
         classes={classes}
         setDataLoading={setDataLoading}
         setModalOpen={setModalOpen}
       />
       <Drawer
+        data-test="Drawer"
         className={classes.drawer}
         variant="permanent"
         classes={{
@@ -57,38 +50,36 @@ export default function TodoInterface({ theme }) {
         }}
       >
         <Toolbar />
-        <div className={classes.drawerContainer}>
-          <List>
-            {activeUser.items &&
-              !dataLoading &&
-              todoList.map((data, index) => {
-                return <Todo key={index} data={data} classes={classes} />;
-              })}
-          </List>
-        </div>
+        <TodoList
+          activeUser={activeUser}
+          dataLoading={dataLoading}
+          todoList={todoList}
+          classes={classes}
+        />
       </Drawer>
-      <main className={classes.content}>
-        <Toolbar />
-        {!Object.keys(activeUser).length && !modalOpen ? (
-          <div>
-            <span className={classes.signupContent}>
-              need to create an account?&nbsp;&nbsp;
-              <span></span>
-              <span
-                className={classes.signupToggleParent}
-                onClick={() => setModalOpen(true)}
-              >
-                <span className={classes.signupToggle}>Signup</span>
-              </span>
-            </span>
-          </div>
-        ) : null}
+      <main className={classes.wrapper}>
+        <Greeter
+          activeUser={activeUser}
+          modalOpen={modalOpen}
+          setModalOpen={setModalOpen}
+          classes={classes}
+        />
+        <SaveStatus
+                      activeUser={activeUser}
+                      activeTodo={activeTodo}
+                      classes={classes}
+                      saving={saving}
+        />
         {(modalOpen || false) && (
           <Signup classes={classes} setModalOpen={setModalOpen} />
         )}
         {activeTodo && (
-          <TodoDetails activeData={activeData} classes={classes} />
-          // <Test data={activeData} classes={classes}/>
+          <TodoDetails
+            activeData={activeData}
+            classes={classes}
+            saving={saving}
+            setSaving={setSaving}
+          />
         )}
         {activeUser.items && !todoList.length && !dataLoading && (
           <NoTasks classes={classes} />
@@ -100,3 +91,6 @@ export default function TodoInterface({ theme }) {
     </div>
   );
 }
+
+
+export default TodoInterface;

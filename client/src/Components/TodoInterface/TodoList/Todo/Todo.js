@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 // redux
 import { useSelector, useDispatch } from "react-redux";
-import { setActive } from "../../../redux/actions/activeActions";
+import { setActive } from "../../../../redux/actions/activeActions";
 //mui components
 import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
 // mui icons
 import AssignmentIcon from "@material-ui/icons/Assignment";
 import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
@@ -20,12 +19,14 @@ const Todo = ({ classes, data }) => {
     if (data.title.length > 9) {
       setAbvTitle(`${data.title.slice(0, 9)}...`);
     } else {
-      setAbvTitle(data.title);
+      if (data.title === " ") {
+        setAbvTitle("ADD TITLE");
+      } else {
+        setAbvTitle(data.title);
+      }
     }
   }, [data]);
-  useEffect(()=> {
-
-  },[activeTodo])
+  useEffect(() => {}, [activeTodo]);
   const handleActive = () => {
     dispatch(setActive(data.id));
   };
@@ -39,9 +40,7 @@ const Todo = ({ classes, data }) => {
       <ListItem id={data.id} className={todoStyles} button key={abvTitle}>
         {data.completed ? (
           <>
-            <CheckCircleOutlineIcon
-              className={classes.circleOutlineIcon}
-            />
+            <CheckCircleOutlineIcon className={classes.circleOutlineIcon} />
             <div className={classes.crossout}>{abvTitle}</div>
           </>
         ) : (

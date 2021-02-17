@@ -5,8 +5,8 @@ import { useSelector } from "react-redux"
 // core components
 import Login from '../../Auth/Login'
 import Logout from '../../Auth/Logout'
-import Add from "../Todo/Add";
-import Delete from "../Todo/Delete";
+import Add from "./Add";
+import Delete from "./Delete";
 //mui components
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";

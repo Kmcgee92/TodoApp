@@ -11,12 +11,21 @@ import { useLazyQuery } from "@apollo/react-hooks";
 import { GET_ACTIVE_USER } from "./graphql/queries/getActiveUser";
 // core components
 import TodoInterface from "./Components/TodoInterface/TodoInterface"
+//mui components
+import { makeStyles } from "@material-ui/core/styles";
 // styles
-import { MuiThemeProvider } from "@material-ui/core/styles";
-import theme from "./AppTheme";
-
+import { TodoStyles } from "./MUIStyles";
 
 const App = () => {
+
+    const interactiveDrawer = "80px";
+    const useStyles = makeStyles((styles) =>
+      TodoStyles(styles, "180px", interactiveDrawer)
+    );
+    const classes = useStyles();
+
+
+    
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
 
@@ -61,15 +70,13 @@ const App = () => {
 
   return (
     <div>
-      <MuiThemeProvider theme={theme}>
         <BrowserRouter>
           <Switch>
             <Route exact path="/">
-              <TodoInterface />
+              <TodoInterface classes={classes} />
             </Route>
           </Switch>
         </BrowserRouter>
-      </MuiThemeProvider>
     </div>
   );
 };;
