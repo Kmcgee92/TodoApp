@@ -17,17 +17,21 @@ import Toolbar from "@material-ui/core/Toolbar";
 import { findByTestAtrr } from "../../../utils/index";
 import Providers from "../../../utils/Providers";
 
+
 describe("<TodoInterface/>", () => {
   let wrapWithProviders;
+  let providers;
   let component;
   let props = {
     classes: {},
+    mockProp: {},
   };
 
   describe("Should Render Component on Inital Mount", () => {
     beforeEach(() => {
-      wrapWithProviders = Providers(TodoInterface, props);
-      component = mount(wrapWithProviders);
+      wrapWithProviders = mount(Providers(TodoInterface, props));
+      providers = wrapWithProviders.find(TodoInterface);
+      component = providers.find(TodoInterface);
     });
     it("Should Render Root Element on Mount", () => {
       const root = findByTestAtrr(component, "Root");
@@ -53,7 +57,7 @@ describe("<TodoInterface/>", () => {
       const toolbars = component.find(Toolbar);
       expect(toolbars).toHaveLength(3);
     });
-    it("Should not Render Todo, Signup, TodoDetails, NoTasks, or LoadingSpinner components on Mount", () => {
+    it("Should not Render Signup, TodoDetails, NoTasks, or LoadingSpinner components on Mount", () => {
       let components = [];
       let array = [Signup, TodoDetails, NoTasks, LoadingSpinner];
       for (let i = 0; i < array.length; i++) {
@@ -66,58 +70,93 @@ describe("<TodoInterface/>", () => {
   });
   describe("Component Should Render with Props", () => {
     beforeEach(() => {
-      wrapWithProviders = Providers(TodoInterface, props);
-      component = mount(wrapWithProviders);
-    });
-    it(" Should recieve classes prop", () => {
-      const interfaceComponent = shallow(wrapWithProviders)
-        .dive()
-        .dive()
-        .dive()
-        .dive()
-        .dive();
-      expect(interfaceComponent.props().classes).toEqual({});
-    });
-  });
-
-  describe("State Change Testing", () => {
-    beforeEach(() => {
-      props = {
-        classes: {},
-        setDataLoading: jest.fn(),
-        setModalOpen: jest.fn(),
-        setActiveData: jest.fn(),
-      };
       wrapWithProviders = mount(Providers(TodoInterface, props));
-      component = wrapWithProviders.find(TodoInterface);
-      console.log(component.debug());
-      console.log(component.find(TodoInterface).debug());
+      providers = wrapWithProviders.find(TodoInterface);
+      component = providers.find(TodoInterface);
     });
-    it("Should update setDataLoading state on dataLoading State Change", () => {
-      // const spy = jest.spyOn(React, "useState");
-      // spy.mockImplementation((dataLoading) => [
-      //   dataLoading,
-      //   props.setDataLoading,
-      // ]);
-      expect(1).toEqual(1);
-    });
-    it("Should update setModalOpen state on modalOpen State Change", () => {
-      expect(1).toEqual(1);
-    });
-    it("Should update setActiveData state on ActiveData State Change", () => {
-      expect(1).toEqual(1);
+    it("Should recieve any props passes in", () => {
+      expect(component.props().mockProp).toEqual({});
     });
   });
 
-  describe("Chilren Should Recieve Props Omitting Styles", () => {
-    // beforeEach(() => {
-    //   wrapWithProviders = Providers(TodoInterface, props);
-    //   component = mount(wrapWithProviders);
-    // });
-    it("Should prop thread to Header", () => {});
-    it("Should prop thread to TodoList", () => {});
-    it("Should prop thread to Signup", () => {});
-    it("Should prop thread to TodoDetails", () => {});
-    it("Should prop thread to NoTasks", () => {});
+  describe("Components render on local/Redux State Change", () => {
+    //~ dive into children, change state, send mock data to redux, check to see if components render.
+    let mockReduxState;
+    let mockUser;
+    let mockError;
+    beforeEach(() => {
+      mockUser = {
+        id: 1,
+        name: "Demo",
+        email: "demo@bcf.com",
+        items: [{}],
+      };
+      mockUser = {};
+      mockReduxState = {
+        auth: { activeUser: {}, error: false },
+      };
+      wrapWithProviders = mount(
+        Providers(TodoInterface, props, mockReduxState)
+      );
+      providers = wrapWithProviders.find(TodoInterface);
+      component = providers.find(TodoInterface);
+    });
+    it("Signup Component Mounts Properly on State Shange", () => {
+      expect(1).toBe(1);
+    });
+    it("TodoDetails Component Mounts Properly on State Shange", () => {
+      expect(1).toBe(1);
+    });
+    it("NoTasks Component Mounts Properly on State Shange", () => {
+      expect(1).toBe(1);
+    });
+    it("LoadingSpinner Component Mounts Properly on State Shange", () => {
+      expect(1).toBe(1);
+    });
   });
-});
+})
+
+
+
+
+  //! describe("MySearchComponent", () => {
+  //   let mockAppState;
+  //   let useSelector;
+  //     jest.mock("react-redux", () => ({
+  //       useSelector: jest.fn(),
+  //     }));
+  //   beforeEach(() => {
+  //     props = {
+  //       classes: {},
+  //     };
+  //     mockAppState = { error: false, activeUser: {} }
+      
+  //     useSelector.mockImplementation((callback) => {
+  //       return callback(mockAppState);
+  //     });
+  //   });
+  //   afterEach(() => {
+  //     useSelector.mockClear();
+  //   });
+  //   it("should render a query", () => {
+  //     const { getByTestId } = render(<TodoInterface props={props} />);
+  //     expect(getByTestId("query_testId").textContent).toEqual(
+  //       mockAppState.config.query
+  //     );
+  //   });
+  //   it("should not render if query is empty", () => {
+  //     const localMockState = {
+  //       ...mockAppState,
+  //       config: {
+  //         ...mockShoppingState.config,
+  //         query: "",
+  //       },
+  //     };
+  //     useSelector.mockImplementation((callback) => {
+  //       return callback(localMockState);
+  //     });
+  //     const { queryByTestId } = render(<MySearchComponent />);
+  //     expect(queryByTestId("query_testId")).toBeNull();
+  //   });
+  // });
+

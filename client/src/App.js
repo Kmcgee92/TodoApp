@@ -1,6 +1,5 @@
 
 import React, { useEffect } from "react";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
 import Cookies from "js-cookie";
 // redux
 import { useDispatch, useSelector } from "react-redux";
@@ -17,15 +16,12 @@ import { makeStyles } from "@material-ui/core/styles";
 import { TodoStyles } from "./MUIStyles";
 
 const App = () => {
+  const interactiveDrawer = "80px";
+  const useStyles = makeStyles((styles) =>
+    TodoStyles(styles, "180px", interactiveDrawer)
+  );
+  const classes = useStyles();
 
-    const interactiveDrawer = "80px";
-    const useStyles = makeStyles((styles) =>
-      TodoStyles(styles, "180px", interactiveDrawer)
-    );
-    const classes = useStyles();
-
-
-    
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
 
@@ -67,49 +63,8 @@ const App = () => {
   if (loading) {
     return <h1>Loading...</h1>;
   }
-
-  return (
-    <div>
-        <BrowserRouter>
-          <Switch>
-            <Route exact path="/">
-              <TodoInterface classes={classes} />
-            </Route>
-          </Switch>
-        </BrowserRouter>
-    </div>
-  );
-};;
+  
+  return <TodoInterface classes={classes} />;
+};
 
 export default App;
-
-
-
-
-/* <Route exact path="/manageProfiles">
-<ProfileManager />
-</Route>
-
-<Route exact path="/browse">
-<Browse />
-</Route>
-
-<Route exact path="/history">
-<History />
-</Route>
-
-<Route exact path="/watchlist">
-<Watchlist />
-</Route>
-
-<Route exact path="/login">
-<Signin />
-</Route>
-
-<Route exact path="/signup">
-<Signup />
-</Route>
-
-<Route component={NotFound}>
-<NotFound />
-</Route> */

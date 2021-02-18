@@ -6,11 +6,18 @@ import { MockedProvider } from "@apollo/client/testing";
 
 const middlewares = [thunk];
 const mockStore = configureStore(middlewares);
-const initialState = { auth: { activeUser: {}, error: false } };
 
-export default function ComponentWithProviders(ComponentToBeTested, props) {
+export default function ComponentWithProviders(
+  ComponentToBeTested,
+  props,
+  initialState
+) {
   let mocks = [];
-  let store = mockStore(initialState);
+  let store = mockStore(
+    
+    initialState || { auth: { activeUser: {}, error: false } }
+  
+  );
   return (
     <MockedProvider mocks={mocks}>
       <Provider store={store}>

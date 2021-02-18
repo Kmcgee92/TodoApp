@@ -14,15 +14,27 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { set } from "js-cookie";
 
-const TodoDetails = ({ activeData, classes, saving, setSaving }) => {
+const TodoDetails = ({ classes, saving, setSaving }) => {
   const dispatch = useDispatch();
   const userId = useSelector((state) => state.auth.activeUser.id);
+  const todoList = useSelector((state) => state.todos);
+  const activeTodo = useSelector((state) => state.active);
+  const [activeData, setActiveData] = useState({});
   const [complete, setComplete] = useState(activeData.completed || false);
   const [title, setTitle] = useState(activeData.title || "ADD TITLE");
   const [content, setContent] = useState(activeData.content || "");
 
   // eslint-disable-next-line
   let [saveData, { _data, _loading, _error }] = useMutation(UPDATE_ITEM);
+
+  useEffect(() => {
+    if (activeTodo) {
+      const [filtered] = todoList.filter((object) => {
+        return Number(object.id) === activeTodo;
+      });
+      setActiveData(filtered);
+    }
+  }, [todoList, activeTodo]);
 
   useEffect(() => {
     setComplete(activeData.completed);
@@ -67,7 +79,6 @@ const TodoDetails = ({ activeData, classes, saving, setSaving }) => {
     setSaving(false);
     setContent(e.target.value);
   };
-  console.log(saving);
   return (
     <div className={classes.detailContent}>
       <header className={classes.itemStatus}>

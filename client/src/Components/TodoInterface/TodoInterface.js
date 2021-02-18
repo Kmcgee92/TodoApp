@@ -21,28 +21,16 @@ export function TodoInterface({ classes }) {
   const activeTodo = useSelector((state) => state.active);
   const [dataLoading, setDataLoading] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
-  const [activeData, setActiveData] = useState({});
   const [saving, setSaving] = useState(true);
-
-  useEffect(() => {
-    if (activeTodo) {
-      const [filtered] = todoList.filter((object) => {
-        return Number(object.id) === activeTodo;
-      });
-      setActiveData(filtered);
-    }
-  }, [todoList, activeTodo]);
 
   return (
     <div data-test="Root" className={classes.root}>
       <Header
-        data-test="Header"
         classes={classes}
         setDataLoading={setDataLoading}
         setModalOpen={setModalOpen}
       />
       <Drawer
-        data-test="Drawer"
         className={classes.drawer}
         variant="permanent"
         classes={{
@@ -65,17 +53,16 @@ export function TodoInterface({ classes }) {
           classes={classes}
         />
         <SaveStatus
-                      activeUser={activeUser}
-                      activeTodo={activeTodo}
-                      classes={classes}
-                      saving={saving}
+          activeUser={activeUser}
+          activeTodo={activeTodo}
+          classes={classes}
+          saving={saving}
         />
         {(modalOpen || false) && (
           <Signup classes={classes} setModalOpen={setModalOpen} />
         )}
         {activeTodo && (
           <TodoDetails
-            activeData={activeData}
             classes={classes}
             saving={saving}
             setSaving={setSaving}
