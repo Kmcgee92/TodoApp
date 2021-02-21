@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<TodoInterface/> Should Render Component on Inital Mount Should Match Snapshot 1`] = `ReactWrapper {}`;

@@ -7,10 +7,11 @@ const Greeter = ({ activeUser, modalOpen, setModalOpen, classes }) => {
     <>
       <Toolbar />
       {!Object.keys(activeUser).length && !modalOpen ? (
-        <div>
+        <div data-test="greeting">
           <span className={classes.signupContent}>
             need to create an account?&nbsp;&nbsp;
             <span
+              data-test="signupModalOpen"
               className={classes.signupToggleParent}
               onClick={() => setModalOpen(true)}
             >

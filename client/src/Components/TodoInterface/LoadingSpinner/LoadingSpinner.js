@@ -1,21 +1,15 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import clsx from "clsx";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Fab from "@material-ui/core/Fab";
 import CheckIcon from "@material-ui/icons/Check";
 import CachedIcon from "@material-ui/icons/Cached";
 
-const LoadingSpinner = ({ classes }) => {
-  const [loading, setLoading] = React.useState(false);
-  const [success, setSuccess] = React.useState(false);
+export const LoadingSpinnerUX = ({classes, loading, setLoading, success, setSuccess}) => {
+
   const timer = React.useRef();
 
-  const buttonClassname = clsx({
-    [classes.buttonSuccess]: success,
-    [classes.dataLoading]: !success,
-  });
-
-  React.useEffect(() => {
+  useEffect(() => {
     setSuccess(false);
     setLoading(true);
     timer.current = window.setTimeout(() => {
@@ -25,8 +19,13 @@ const LoadingSpinner = ({ classes }) => {
     return () => {
       clearTimeout(timer.current);
     };
-  }, []);
+  }, [setLoading, setSuccess]);
 
+    const buttonClassname = clsx({
+      [classes.buttonSuccess]: success,
+      [classes.dataLoading]: !success,
+    });
+    
   return (
     <>
       <div className={classes.spinner}>
@@ -39,6 +38,22 @@ const LoadingSpinner = ({ classes }) => {
       </div>
       <div className={classes.spinner}></div>
     </>
+  );
+
+}
+const LoadingSpinner = ({ classes }) => {
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+
+  let props = {
+    loading,
+    setLoading,
+    success,
+    setSuccess,
+    classes
+  }
+  return (
+    <LoadingSpinnerUX {...props}/>
   );
 };
 

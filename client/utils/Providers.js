@@ -10,12 +10,13 @@ const mockStore = configureStore(middlewares);
 export default function ComponentWithProviders(
   ComponentToBeTested,
   props,
-  initialState
+  initialReduxMocks,
+  initialApolloMocks
 ) {
-  let mocks = [];
+  let mocks = initialApolloMocks || [];
   let store = mockStore(
     
-    initialState || { auth: { activeUser: {}, error: false } }
+    initialReduxMocks || { auth: { activeUser: {}, error: false } }
   
   );
   return (

@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Greeter /> Should Render 1`] = `
+<Fragment>
+  <WithStyles(ForwardRef(Toolbar)) />
+  <div
+    data-test="greeting"
+  >
+    <span>
+      need to create an account?  
+      <span
+        data-test="signupModalOpen"
+        onClick={[Function]}
+      >
+        <span>
+          Signup
+        </span>
+      </span>
+    </span>
+  </div>
+</Fragment>
+`;

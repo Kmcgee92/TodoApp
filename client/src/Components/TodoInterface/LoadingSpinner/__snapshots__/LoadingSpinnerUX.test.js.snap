@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<LoadingSpinner /> Static State Testing Should Render 1`] = `
+<Fragment>
+  <div>
+    <WithStyles(ForwardRef(Fab))
+      aria-label="save"
+      className="undefined"
+    >
+      <Memo([object Object]) />
+    </WithStyles(ForwardRef(Fab))>
+  </div>
+  <div />
+</Fragment>
+`;
