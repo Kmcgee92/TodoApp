@@ -103,6 +103,7 @@ const Login = ({ classes, setDataLoading, setModalOpen }) => {
         <FormControl>
           <Input
             required
+            data-test="loginEmail"
             value={email}
             className={classes.authInputs}
             placeholder="email"
@@ -111,11 +112,12 @@ const Login = ({ classes, setDataLoading, setModalOpen }) => {
             error={emailError}
             onChange={(e) => setEmail(e.target.value)}
             onClick={() => setModalOpen(false)}
-          />
+            />
         </FormControl>
         <FormControl>
           <Input
             required
+            data-test="loginPassword"
             value={password}
             type="password"
             className={classes.authInputs}
@@ -126,7 +128,11 @@ const Login = ({ classes, setDataLoading, setModalOpen }) => {
             onClick={() => setModalOpen(false)}
           />
         </FormControl>
-        <Button onClick={handleLogin} className={classes.icon}>
+        <Button
+          data-test="loginButton"
+          onClick={handleLogin}
+          className={classes.icon}
+        >
           Login
         </Button>
       </form>

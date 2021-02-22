@@ -138,146 +138,143 @@ const Signup = ({ classes, setModalOpen }) => {
 
   return (
     <>
-      {true && (
-        <div className={classes.modalContainer}>
-          <div className="xyz-in" xyz="inherit down">
-            <div className={classes.modalContent}>
-              <header className={classes.signupHeader}>
-                <h2>Create an Account</h2>
-              </header>
-              <span style={{ padding: "0 20px", color: "black" }}>
-                * indicates required fields
-              </span>
-              {serverError ? (
-                <div className={classes.serverErrorStyles}>
-                  <span className={classes.serverErrorStyles}>
-                    {serverError}
-                  </span>
-                </div>
-              ) : null}
-              <form onSubmit={handleSignup} className={classes.signupForm}>
-                <TextField
-                  required
-                  onChange={(e) => setName(e.target.value)}
-                  error={nameError}
-                  helperText={nameHelperText()}
-                  label="Name"
-                  type="name"
-                  autoComplete="name"
-                  variant="outlined"
-                  className={classes.signupInput}
-                  InputProps={{
-                    className: classes.signupInputChildren,
-                    endAdornment: <PersonOutlineIcon />,
-                  }}
-                  autoFocus={true}
+      <div className={classes.modalContainer}>
+        <div className="xyz-in" xyz="inherit down">
+          <div className={classes.modalContent}>
+            <header className={classes.signupHeader}>
+              <h2>Create an Account</h2>
+            </header>
+            <span style={{ padding: "0 20px", color: "black" }}>
+              * indicates required fields
+            </span>
+            {serverError ? (
+              <div className={classes.serverErrorStyles}>
+                <span className={classes.serverErrorStyles}>
+                  {serverError}
+                </span>
+              </div>
+            ) : null}
+            <form onSubmit={handleSignup} className={classes.signupForm}>
+              <TextField
+                required
+                data-test="nameField"
+                onChange={(e) => setName(e.target.value)}
+                error={nameError}
+                helperText={nameHelperText()}
+                label="Name"
+                type="name"
+                autoComplete="name"
+                variant="outlined"
+                className={classes.signupInput}
+                InputProps={{
+                  className: classes.signupInputChildren,
+                  endAdornment: <PersonOutlineIcon />,     
+                }}
+                autoFocus={true}
                 />
-                <TextField
-                  required
-                  onChange={(e) => setEmail(e.target.value)}
-                  label="Email"
-                  type="email"
-                  autoComplete="email"
-                  variant="outlined"
-                  className={classes.signupInput}
-                  InputProps={{
-                    className: classes.signupInputChildren,
-                    endAdornment: <HttpsOutlinedIcon />,
-                  }}
+              <TextField
+                required
+                data-test="emailField"
+                onChange={(e) => setEmail(e.target.value)}
+                label="Email"
+                type="email"
+                autoComplete="email"
+                variant="outlined"
+                className={classes.signupInput}
+                InputProps={{
+                  className: classes.signupInputChildren,
+                  endAdornment: <HttpsOutlinedIcon />,
+                }}
                 />
-                <TextField
-                  type="username"
-                  style={{ display: "none" }}
-                  autoComplete="username"
-                />
-                <TextField
-                  required
-                  onChange={(e) => setPassword(e.target.value)}
-                  error={passwordError}
-                  helperText={
-                    passwordError &&
-                    "password must be at least 8 characters long "
-                  }
-                  color="primary"
-                  label="Password"
-                  name="password"
-                  type={!passVisibility ? "password" : "reveal"}
-                  variant="outlined"
-                  autoComplete="currentPassword"
-                  className={classes.signupInput}
-                  InputProps={{
-                    className: classes.signupInputChildren,
-                    endAdornment: passVisibility ? (
-                      <VisibilityOutlinedIcon
-                        onClick={() => setPassVisibility(false)}
-                        className={classes.visibilityIcon}
-                        style={{ color: "white" }}
-                      />
+              <TextField
+                required
+                data-test="passwordField"
+                onChange={(e) => setPassword(e.target.value)}
+                error={passwordError}
+                helperText={
+                  passwordError &&
+                  "password must be at least 8 characters long "
+                }
+                color="primary"
+                label="Password"
+                name="password"
+                type={!passVisibility ? "password" : "reveal"}
+                variant="outlined"
+                autoComplete="currentPassword"
+                className={classes.signupInput}
+                InputProps={{
+                  className: classes.signupInputChildren,
+                  endAdornment: passVisibility ? (
+                    <VisibilityOutlinedIcon
+                    onClick={() => setPassVisibility(false)}
+                    className={classes.visibilityIcon}
+                    style={{ color: "white" }}
+                    />
                     ) : (
                       <VisibilityOffOutlinedIcon
-                        onClick={() => setPassVisibility(true)}
-                        className={classes.visibilityIcon}
+                      onClick={() => setPassVisibility(true)}
+                      className={classes.visibilityIcon}
                       />
-                    ),
-                  }}
-                />
-                <TextField
-                  required
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  error={confirmPasswordError}
-                  helperText={
-                    confirmPasswordError &&
-                    "confirmation does not match password field."
-                  }
-                  label="Confirm Password"
-                  type={!confirmPassVisibility ? "password" : "reveal"}
-                  variant="outlined"
-                  autoComplete="current-password"
-                  className={classes.signupInput}
-                  InputProps={{
-                    className: classes.signupInputChildren,
-                    endAdornment: confirmPassVisibility ? (
-                      <VisibilityOutlinedIcon
-                        onClick={() => setConfirmPassVisibility(false)}
-                        style={{ color: "white" }}
-                      />
-                    ) : (
-                      <VisibilityOffOutlinedIcon
-                        onClick={() => setConfirmPassVisibility(true)}
-                        className={classes.visibilityIcon}
-                      />
-                    ),
-                  }}
-                />
-                {!creatingUserLoader ? (
-                  <>
-                    <Button style={{ color: "white" }} type="submit">
-                      Create Account
-                    </Button>
+                      ),
+                    }}
+                    />
+              <TextField
+                required
+                data-test="confirmPasswordField"
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                error={confirmPasswordError}
+                helperText={
+                  confirmPasswordError &&
+                  "confirmation does not match password field."
+                }
+                label="Confirm Password"
+                type={!confirmPassVisibility ? "password" : "reveal"}
+                variant="outlined"
+                autoComplete="current-password"
+                className={classes.signupInput}
+                InputProps={{
+                  className: classes.signupInputChildren,
+                  endAdornment: confirmPassVisibility ? (
+                    <VisibilityOutlinedIcon
+                      onClick={() => setConfirmPassVisibility(false)}
+                      style={{ color: "white" }}
+                    />
+                  ) : (
+                    <VisibilityOffOutlinedIcon
+                      onClick={() => setConfirmPassVisibility(true)}
+                      className={classes.visibilityIcon}
+                    />
+                  ),
+                }}
+              />
+              {!creatingUserLoader ? (
+                <>
+                  <Button style={{ color: "white" }} type="submit">
+                    Create Account
+                  </Button>
 
-                    <Button
-                      className={classes.cancelButton}
-                      onClick={() => setModalOpen(false)}
-                    >
-                      Cancel
-                    </Button>
-                  </>
-                ) : (
-                  <>
-                    <LinearProgress style={{ margin: "20px" }} />
-                    <Button
-                      className={classes.cancelButton}
-                      onClick={() => setModalOpen(false)}
-                    >
-                      Cancel
-                    </Button>
-                  </>
-                )}
-              </form>
-            </div>
+                  <Button
+                    className={classes.cancelButton}
+                    onClick={() => setModalOpen(false)}
+                  >
+                    Cancel
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <LinearProgress style={{ margin: "20px" }} />
+                  <Button
+                    className={classes.cancelButton}
+                    onClick={() => setModalOpen(false)}
+                  >
+                    Cancel
+                  </Button>
+                </>
+              )}
+            </form>
           </div>
         </div>
-      )}
+      </div>
     </>
   );
 };

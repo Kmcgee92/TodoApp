@@ -35,6 +35,51 @@ QUERYS
 
 
 TESTS
+- notes for future project structuring:
+- All error handling logic such in Signup or any logic trhat can be extracted should be seperated into pure functions for testing purposes
+- Testing with hooks skips implementation details and tests just the behavior
 
 UNIT TESTING internal components
 INTEGRATION TESTING external library functionality
+
+complete:
+  TodoInterface
+  Greeting
+  LoadingSpinnerUX
+
+AUTH:
+  Login
+  Signup
+  Logout
+
+5 complete
+
+incomplete:
+CORE:
+
+  Header
+    Add
+    Delete
+    Header
+
+  SaveStatus
+
+  TodoDetails
+    TodoDetails
+    NoTasks
+  
+  TodoList
+    TodoList
+    Todo
+  
+Redux:
+  Actions
+    activeActions
+    authActions
+    userTodoActions
+  Reducers
+    active
+    Auth
+    Todos
+
+15 tests need completed
