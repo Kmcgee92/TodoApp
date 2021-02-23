@@ -1,11 +1,7 @@
-import React from "react";
-import { act } from "react-dom/test-utils";
-
-import { shallow, render, mount } from "enzyme";
+import { mount } from "enzyme";
 // component to test
 import Login from "./Login";
 // child components
-import Input from "@material-ui/core/Input";
 import Button from "@material-ui/core/Button";
 
 // utils

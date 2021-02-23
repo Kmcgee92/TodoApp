@@ -52,7 +52,17 @@ AUTH:
   Signup
   Logout
 
-5 complete
+Redux:
+  Actions
+    activeActions
+    authActions
+    userTodoActions
+  Reducers
+    active
+    Auth
+    Todos
+
+12 complete
 
 incomplete:
 CORE:
@@ -71,15 +81,6 @@ CORE:
   TodoList
     TodoList
     Todo
-  
-Redux:
-  Actions
-    activeActions
-    authActions
-    userTodoActions
-  Reducers
-    active
-    Auth
-    Todos
 
-15 tests need completed
+
+8 tests need completed
