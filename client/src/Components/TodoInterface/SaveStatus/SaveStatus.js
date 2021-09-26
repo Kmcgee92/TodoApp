@@ -21,7 +21,7 @@ const SaveStatus = ({ classes, saving, activeTodo, activeUser }) => {
     <>
       <div className={classes.savedWrapper}>
         {Object.keys(activeUser).length ? (
-          <div>
+          <div data-test="time">
             <span>{time}</span>
           </div>
         ) : null}

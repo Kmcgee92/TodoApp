@@ -1,13 +1,12 @@
-import { act } from "react-dom/test-utils";
+import toJSON from "enzyme-to-json";
 
-import { shallow, render, mount } from "enzyme";
+import { mount } from "enzyme";
 // component to test
 import Delete from "./Delete";
 // child components
-
+import DeleteIcon from "@material-ui/icons/Delete";
 // utils
 import Providers from "../../../../utils/Providers";
-import { findByTestAtrr } from "../../../../utils/index";
 
 describe("<Delete/>", () => {
   let props;
@@ -22,10 +21,16 @@ describe("<Delete/>", () => {
       component = wrapWithProviders.find(Delete);
     });
     it("Should Render", () => {
-      expect(1).toBe(1);
+      expect(component).toHaveLength(1);
     });
     it("Should Match Snapshot", () => {
-      expect(1).toBe(1);
+      expect(toJSON(component)).toMatchSnapshot();
+    });
+    it("Should Render NoteAddIcon", () => {
+      let deleteIcon = component.find(DeleteIcon);
+      expect(deleteIcon).toHaveLength(1);
+      expect(deleteIcon.props().onClick).toBeDefined();
     });
   });
 });
+

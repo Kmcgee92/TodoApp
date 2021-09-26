@@ -1,12 +1,11 @@
 import React from "react";
-import { mount, shallow } from "enzyme";
+import { shallow } from "enzyme";
 import toJSON from "enzyme-to-json";
 // component to test
 import Greeter from "./Greeter";
-import { isDescribable } from "graphql-tools";
 // utils
 import { findByTestAtrr } from "../../../../utils/index";
-import { ExpansionPanelActions, jssPreset } from "@material-ui/core";
+
 
 describe("<Greeter />", () => {
   let greeter;

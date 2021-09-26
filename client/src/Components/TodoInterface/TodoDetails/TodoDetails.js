@@ -12,7 +12,6 @@ import Divider from "@material-ui/core/Divider";
 import InputBase from "@material-ui/core/InputBase";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import { set } from "js-cookie";
 
 const TodoDetails = ({ classes, saving, setSaving }) => {
   const dispatch = useDispatch();

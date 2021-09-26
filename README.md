@@ -52,6 +52,11 @@ AUTH:
   Signup
   Logout
 
+  Header
+    Add
+    Delete
+    Header
+
 Redux:
   Actions
     activeActions
@@ -62,25 +67,20 @@ Redux:
     Auth
     Todos
 
-12 complete
+  SaveStatus
+
+    NoTasks
+
+    TodoList
+
+18 complete
 
 incomplete:
 CORE:
 
-  Header
-    Add
-    Delete
-    Header
 
-  SaveStatus
-
-  TodoDetails
     TodoDetails
-    NoTasks
-  
-  TodoList
-    TodoList
     Todo
 
 
-8 tests need completed
+2 tests need completed

@@ -1,0 +1,46 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Add/> Initial Component Rendering Should Match Snapshot 1`] = `
+<Add
+  classes={Object {}}
+>
+  <div>
+    <ForwardRef(NoteAddIcon)
+      onClick={[Function]}
+    >
+      <WithStyles(ForwardRef(SvgIcon))
+        onClick={[Function]}
+      >
+        <ForwardRef(SvgIcon)
+          classes={
+            Object {
+              "colorAction": "MuiSvgIcon-colorAction",
+              "colorDisabled": "MuiSvgIcon-colorDisabled",
+              "colorError": "MuiSvgIcon-colorError",
+              "colorPrimary": "MuiSvgIcon-colorPrimary",
+              "colorSecondary": "MuiSvgIcon-colorSecondary",
+              "fontSizeInherit": "MuiSvgIcon-fontSizeInherit",
+              "fontSizeLarge": "MuiSvgIcon-fontSizeLarge",
+              "fontSizeSmall": "MuiSvgIcon-fontSizeSmall",
+              "root": "MuiSvgIcon-root",
+            }
+          }
+          onClick={[Function]}
+        >
+          <svg
+            aria-hidden={true}
+            className="MuiSvgIcon-root"
+            focusable="false"
+            onClick={[Function]}
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 14h-3v3h-2v-3H8v-2h3v-3h2v3h3v2zm-3-7V3.5L18.5 9H13z"
+            />
+          </svg>
+        </ForwardRef(SvgIcon)>
+      </WithStyles(ForwardRef(SvgIcon))>
+    </ForwardRef(NoteAddIcon)>
+  </div>
+</Add>
+`;
